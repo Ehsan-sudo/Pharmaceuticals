@@ -1,5 +1,5 @@
-from operator import mod
 from django.db import models
+from PIL import Image
 
 
 class Company(models.Model):
@@ -69,6 +69,14 @@ class Medicine(models.Model):
     expire_date = models.DateField()
     unit_price = models.FloatField()
     quantity = models.IntegerField()
+    image = models.ImageField(upload_to='medicine_pics', default='default.jpg', null=True)
 
     def __str__(self):
         return self.brand_name
+
+    def save(self, *args, **kwargs):
+        super(Medicine, self).save(*args, **kwargs)
+
+        img = Image.open(self.image.path)
+        img.thumbnail((300, 300))
+        img.save(self.image.path)
