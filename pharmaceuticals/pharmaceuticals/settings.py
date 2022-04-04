@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'pharmaceuticals.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'DATABASE': 'pharma',
+        'NAME': 'pharma',
         'USER': 'ehsan',
         'PASSWORD': 'ehsan123'
     }
