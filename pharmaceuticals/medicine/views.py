@@ -7,3 +7,7 @@ from django.shortcuts import render
 # 
 # from django.db.models import F
 # customer.purchases.get(pk=1).medicines.aggregate(sum=Sum(F('unit_price')*F('quantity')))
+
+
+def home(request):
+    return render(request, 'medicine/home.html')

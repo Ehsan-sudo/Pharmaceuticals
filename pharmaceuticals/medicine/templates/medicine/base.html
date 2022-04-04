@@ -1,21 +1,21 @@
 {% load static %}
 <!doctype html>
-<html lang="en">
+<html lang="en" style="direction: rtl;">
   <head>
     
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="stylesheet" href="{% static 'medicine/css/app-rtl.min.css' %}">
-    <link rel="stylesheet" href="{% static 'medicine/css/app-dark.min.css' %}">
-    <link rel="stylesheet" href="{% static 'medicine/css/app.min.css' %}">
+    <link href="{% static 'medicine/js/assets/libs/jqvmap/jqvmap.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'medicine/js/assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
+    <link rel="shortcut icon" href="{% static 'medicine/js/assets/images/favicon.ico' %}">
+    <link rel="stylesheet" href="{% static 'medicine/css/icons.min.css' %}">
     <link rel="stylesheet" href="{% static 'medicine/css/bootstrap-rtl.min.css' %}">
-    <link rel="stylesheet" href="{% static 'medicine/css/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'medicine/css/icon.min.css' %}">
+    <link rel="stylesheet" href="{% static 'medicine/css/app-rtl.min.css' %}">
 
 </head>
-  <body>
+  <body data-sidebar="dark">
     {% block content %}
 
     {% endblock %}
@@ -23,13 +23,17 @@
 
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
-
-    <!-- JAVASCRIPT -->
-    <script src="{% static 'medicine/libs/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'medicine/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
-    <script src="{% static 'medicine/libs/metismenu/metisMenu.min.js' %}"></script>
-    <script src="{% static 'medicine/libs/simplebar/simplebar.min.js' %}"></script>
-    <script src="{% static 'medicine/libs/node-waves/waves.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/metismenu/metisMenu.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/simplebar/simplebar.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/node-waves/waves.min.js' %}"></script>
+    
+    <script src="{% static 'medicine/js/assets/libs/apexcharts/apexcharts.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/jqvmap/jquery.vmap.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/js/pages/dashboard.init.js' %}"></script>
     <script src="{% static 'medicine/js/app.js' %}"></script>
+
   </body>
 </html>
