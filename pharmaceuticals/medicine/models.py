@@ -1,5 +1,5 @@
-from operator import mod
 from django.db import models
+from PIL import Image
 
 
 class Company(models.Model):
@@ -25,31 +25,31 @@ class Customer(models.Model):
 
 
 class CustomerPurchase(models.Model):
-    customer_id = models.ForeignKey('Customer', on_delete=models.CASCADE)
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE, related_name='purchases')
     date = models.DateField(auto_now_add=True)
 
 
 class CustomerPurchaseMedicine(models.Model):
-    purchase_id = models.ForeignKey('CustomerPurchase', on_delete=models.CASCADE)
-    medicine_id = models.ForeignKey('Medicine', on_delete=models.CASCADE)
+    purchase = models.ForeignKey('CustomerPurchase', on_delete=models.CASCADE, related_name='medicines')
+    medicine = models.ForeignKey('Medicine', on_delete=models.CASCADE)
     quantity = models.IntegerField()
     unit_price = models.FloatField()
 
 
 class CompanyPurchase(models.Model):
-    company_id = models.ForeignKey('Company', on_delete=models.CASCADE)
+    company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name='purchases')
     date = models.DateField(auto_now_add=True)
 
 
 class CompanyPurchaseMedicine(models.Model):
-    purchase_id = models.ForeignKey('CompanyPurchase', on_delete=models.CASCADE)
-    medicine_id = models.ForeignKey('Medicine', on_delete=models.CASCADE)
+    purchase = models.ForeignKey('CompanyPurchase', on_delete=models.CASCADE, related_name='medicines')
+    medicine = models.ForeignKey('Medicine', on_delete=models.CASCADE)
     quantity = models.IntegerField()
     unit_price = models.FloatField()
 
 
 class CustomerPayment(models.Model):
-    customer_id = models.ForeignKey('Customer', on_delete=models.CASCADE)
+    customer = models.ForeignKey('Customer', on_delete=models.CASCADE, related_name='payments')
     date = models.DateField(auto_now_add=True)
     payed_amount = models.FloatField()
 
@@ -65,10 +65,18 @@ class Medicine(models.Model):
     brand_name = models.CharField(max_length=100, unique=True)
     medical_name = models.CharField(max_length=100, null=True)
     formula = models.TextField(max_length=300, null=True)
-    type_id = models.ForeignKey('MedicineType', on_delete=models.CASCADE)
+    type = models.ForeignKey('MedicineType', on_delete=models.CASCADE, related_name='medicines')
     expire_date = models.DateField()
     unit_price = models.FloatField()
     quantity = models.IntegerField()
+    image = models.ImageField(upload_to='medicine_pics', default='default.jpg', null=True)
 
     def __str__(self):
         return self.brand_name
+
+    def save(self, *args, **kwargs):
+        super(Medicine, self).save(*args, **kwargs)
+
+        img = Image.open(self.image.path)
+        img.thumbnail((300, 300))
+        img.save(self.image.path)
