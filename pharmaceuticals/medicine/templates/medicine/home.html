@@ -66,11 +66,13 @@
                             </div>
                         </div>
 
-                        <div class="dropdown d-none d-lg-inline-block ms-1">
-                            <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
-                                <i class="ri-fullscreen-line"></i>
-                            </button>
-                        </div>
+                        {% if user.is_authenticated %}
+                            <div class="dropdown d-none d-lg-inline-block ms-1">
+                                <button type="button" class="btn header-item noti-icon waves-effect" data-toggle="fullscreen">
+                                    <i class="ri-fullscreen-line"></i>
+                                </button>
+                            </div>
+                        {% endif %}
 
                         <div class="dropdown d-inline-block">
                             <button type="button" class="btn header-item noti-icon waves-effect" id="page-header-notifications-dropdown"
@@ -128,7 +130,7 @@
                                 <!-- item-->
                                 <a class="dropdown-item" href="#"><i class="ri-user-line align-middle me-1"></i> Profile</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item text-danger" href="#"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
+                                <a class="dropdown-item text-danger" href="{% url 'logout' %}"><i class="ri-shut-down-line align-middle me-1 text-danger"></i> Logout</a>
                             </div>
                         </div>
                     </div>
