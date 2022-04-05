@@ -18,17 +18,26 @@
                                 <!-- end row -->
                                 <h4 class="font-size-18 text-muted mt-2 text-center">Welcome Back !</h4>
                                 <p class="mb-5 text-center">Sign in to continue to Upzet.</p>
-                                <form class="form-horizontal" action="https://themesdesign.in/upzet/layouts/index.html">
+                                
+                                {% for message in messages %}
+                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                        {{message}}
+                                    </div>
+                                {% endfor %}
+                            
+                                <form class="form-horizontal" method='POST'>
+                                    {% csrf_token %}
 
                                     <div class="row">
                                         <div class="col-md-12">
                                             <div class="mb-4">
                                                 <label class="form-label" for="username">Username</label>
-                                                <input type="text" class="form-control" id="username" placeholder="Enter username">
+                                                <input type="text" class="form-control" name="username" placeholder="Enter username">
                                             </div>
                                             <div class="mb-4">
                                                 <label class="form-label" for="userpassword">Password</label>
-                                                <input type="password" class="form-control" id="userpassword" placeholder="Enter password">
+                                                <input type="password" class="form-control" name="userpassword" placeholder="Enter password">
                                             </div>
 
                                             <div class="row">
@@ -54,8 +63,7 @@
                         </div>
                     </div>
                     <div class="mt-5 text-center">
-                        <p class="text-white-50">Don't have an account ? <a href="auth-register.html" class="fw-medium text-primary"> Register </a> </p>
-                        <p class="text-white-50">© <script>document.write(new Date().getFullYear())</script> Upzet. Crafted with <i class="mdi mdi-heart text-danger"></i> by Themesdesign</p>
+                        <p class="text-white-50">Don't have an account ? <a href="{% url 'register' %}" class="fw-medium text-primary"> Register </a> </p>
                     </div>
                 </div>
             </div>

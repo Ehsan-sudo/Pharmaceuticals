@@ -1,0 +1,25 @@
+{% extends "medicine/base.html" %}
+
+{% block content %}
+    <div class="bg-overlay"></div>
+    <div class="account-pages my-5 pt-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-xl-4 col-lg-6 col-md-8">
+                    <div class="card">
+                        <div class="card-body p-4">
+                            <div class="">
+                                <h4 class="font-size-18 text-muted mt-2 text-center">Logged out!</h4>
+                                <a class="mt-2 text-center d-block" href="{% url 'login' %}">Login</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="mt-5 text-center">
+                        <p class="text-white-50">Don't have an account ? <a href="{% url 'register' %}" class="fw-medium text-primary"> Register </a> </p>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+        </div>
+    </div>
+{% endblock content %}
