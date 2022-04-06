@@ -1,6 +1,8 @@
 {% extends 'medicine/base.html' %}
 {% load static %}
 
+{% block page_title %}Home{% endblock page_title %}
+
 {% block content %}
         <!-- Begin page -->
         <div id="layout-wrapper">
@@ -152,7 +154,7 @@
                                 <a href="index.html" class="waves-effect">
                                     <i class="mdi mdi-home-variant-outline"></i><span
                                         class="badge rounded-pill bg-primary float-end">3</span>
-                                    <span>Dashboard</span>
+                                    <span>اصلي پاڼه</span>
                                 </a>
                             </li>
 
@@ -166,12 +168,11 @@
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
                                     <i class="mdi mdi-email-outline"></i>
-                                    <span>Email</span>
+                                    <span>کمپنۍ</span>
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
-                                    <li><a href="email-inbox.html">Inbox</a></li>
-                                    <li><a href="email-read.html">Read Email</a></li>
-                                    <li><a href="email-compose.html">Email Compose</a></li>
+                                    <li><a href="{% url 'list_company' %}">کمپنۍ لیست</a></li>
+                                    <li><a href="{% url 'add_company' %}">کمپنۍ شاملول</a></li>
                                 </ul>
                             </li>
 
@@ -241,6 +242,8 @@
                         </div>
                     {% endfor %}
                     <!-- end page title -->
+
+                    {% block page_content %}{% endblock page_content %}
 
                 </div>
                 <!-- End Page-content -->

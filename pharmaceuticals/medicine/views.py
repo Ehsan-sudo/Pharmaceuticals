@@ -11,3 +11,10 @@ from django.shortcuts import render
 
 def home(request):
     return render(request, 'medicine/home.html')
+
+
+def list_company(request):
+    return render(request, 'medicine/company/list_company.html')
+
+def add_company(request):
+    return render(request, 'medicine/company/add_company.html')

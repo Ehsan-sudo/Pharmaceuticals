@@ -1,5 +1,7 @@
 {% extends "medicine/base.html" %}
 
+{% block page_title %}Login{% endblock page_title %}
+
 {% block content %}
     <div class="bg-overlay"></div>
     <div class="account-pages my-5 pt-5">
@@ -20,7 +22,7 @@
                                 <p class="mb-5 text-center">Sign in to continue to Upzet.</p>
                                 
                                 {% for message in messages %}
-                                    <div class="alert alert-success alert-dismissible fade show" role="alert">
+                                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
                                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                                         {{message}}
                                     </div>
@@ -31,13 +33,13 @@
 
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <div class="mb-4">
-                                                <label class="form-label" for="username">Username</label>
-                                                <input type="text" class="form-control" name="username" placeholder="Enter username">
+                                            <div class="input-group mb-1">
+                                                <div class="input-group-text"><i class="fas fa-user"></i></div>
+                                                <input type="text" class="form-control" id="autoSizingInputGroup" name="username" placeholder="Username">
                                             </div>
-                                            <div class="mb-4">
-                                                <label class="form-label" for="userpassword">Password</label>
-                                                <input type="password" class="form-control" name="userpassword" placeholder="Enter password">
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-text"><i class="fas fa-lock"></i></div>
+                                                <input type="password" class="form-control" id="autoSizingInputGroup" name="userpassword" placeholder="Username">
                                             </div>
 
                                             <div class="row">

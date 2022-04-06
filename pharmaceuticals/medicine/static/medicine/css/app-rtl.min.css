@@ -1,11 +1,7 @@
-/*
-Template Name: Upzet -  Admin & Dashboard Template
-Author: Themesdesign
-Version: 1.1.0
-Contact: themesdesign.in@gmail.com
-File: Main Css File
-*/
-@import url("https://fonts.googleapis.com/css2?family=Work+Sans:wght@300;400;500;600&amp;display=swap");
+@font-face {
+  font-family: '_PDMS_Mehran';
+  src: url(../js/assets/fonts/_PDMS_Mehran.ttf);
+}
 #page-topbar {
   position: fixed;
   top: 0;
@@ -356,7 +352,7 @@ body[data-layout="horizontal"] .footer {
     font-size: 0.92rem;
     -webkit-transition: all 0.4s;
     transition: all 0.4s;
-    font-family: "Work Sans", sans-serif; }
+    font-family:'_PDMS_Mehran'; }
     #sidebar-menu ul li a i {
       display: inline-block;
       min-width: 1.5rem;
