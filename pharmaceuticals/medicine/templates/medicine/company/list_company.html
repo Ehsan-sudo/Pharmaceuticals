@@ -4,7 +4,52 @@
 
 {% block page_content %}
 
-    <h1>List company</h1>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title pashto">د کمپنیو لیست</h4>
+                    <p class="card-title-desc pashto">په لاندي جدول کي تاسي د ثبت سوي کمپنیو لیست وینئ.</p>    
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+
+                            <thead>
+                                <tr class="pashto">
+                                    <th>#</th>
+                                    <th>نوم</th>
+                                    <th>برېښنالیک</th>
+                                    <th>موبایل</th>
+                                    <th>پته</th>
+                                    <th>لاسوهنه</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for company in companies %}
+                                    <tr class="pashto">
+                                        <th scope="row">{{ company.id }}</th>
+                                        <td>{{ company.name }}</td>
+                                        <td>{{ company.email }}</td>
+                                        <td>{{ company.phone }}</td>
+                                        <td>{{ company.location }}</td>
+                                        <td>
+                                            <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'get_company' company.id %}">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <a class="btn btn-outline-danger btn-sm edit" title="Edit" href="{% url 'delete_company' company.id %}">
+                                                <i class="dripicons-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock page_content %}
 
