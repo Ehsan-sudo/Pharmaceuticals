@@ -18,6 +18,13 @@ urlpatterns = [
     path('add-customer/', views.add_customer, name='add_customer'),
     path('delete-customer/<int:id>/', views.delete_customer, name='delete_customer'),
 
+    # medicine type routes
+    path('list-medicine-type/', views.list_medicine_type, name='list_medicine_type'),
+    path('edit-medicine-type/<int:id>/', views.edit_medicine_type, name='edit_medicine_type'),
+    path('get-medicine-type/<int:id>/', views.get_medicine_type, name='get_medicine_type'),
+    path('add-medicine-type/', views.add_medicine_type, name='add_medicine_type'),
+    path('delete-medicine-type/<int:id>/', views.delete_medicine_type, name='delete_medicine_type'),
+
     path('not-found-404/', views.page_404, name='page_404'),
 
 ]

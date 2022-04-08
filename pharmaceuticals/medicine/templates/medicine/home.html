@@ -187,6 +187,18 @@
                                 </ul>
                             </li>
 
+                            <li class="menu-title">درمل</li>
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                    <i class="mdi mdi-email-outline"></i>
+                                    <span>د درملو ډول</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    <li><a href="{% url 'list_medicine_type' %}">د درملو د ډولونو لیست</a></li>
+                                    <li><a href="{% url 'add_medicine_type' %}">د درملو د ډول شاملول</a></li>
+                                </ul>
+                            </li>
+
                             <li class="menu-title">Layouts</li>
 
                             <li>
@@ -247,9 +259,9 @@
                     </div>
 
                     {% for message in messages %}
-                        <div class="alert alert-success alert-dismissible fade show pashto" role="alert">
+                        <div class="alert alert-{{message.tags}} alert-dismissible fade show pashto" role="alert">
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            ګران <strong>{{ user.username }}</strong> سیسټم ته ښه راغلاست!
+                            {{message}}
                         </div>
                     {% endfor %}
                     <!-- end page title -->

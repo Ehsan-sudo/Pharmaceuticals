@@ -1,0 +1,83 @@
+{% extends 'medicine/home.html' %}
+{% load static %}
+
+{% block page_title %}رانیوونکي ایډیټ{% endblock page_title %}
+{% block page_name %}رانیوونکي ایډیټ{% endblock page_name %}
+
+{% block page_content %}
+    
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي د مخکي ثبت سوي رانیوونکی معلومات ایډيټ کوئ.</p>
+                    
+                    <form class="needs-validation" method='POST'>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip01">نوم</label>
+                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="name" placeholder="لومړۍ کمپنۍ" required="" value="{{customer.name}}">
+                                    <div class="valid-tooltip">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip01">کمپنۍ نوم</label>
+                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="company" placeholder="لومړۍ کمپنی" value="{{customer.company_name}}">
+                                    <div class="valid-tooltip">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip01">برېښنالیک</label>
+                                    <input type="email" class="form-control pashto" id="validationTooltip01" name="email" placeholder="example@gmail.com" value="{{customer.email}}">
+                                    <div class="valid-tooltip">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip01">موبایل</label>
+                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="phone" placeholder="07-------" value="{{customer.phone}}">
+                                    <div class="valid-tooltip">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip04">پته</label>
+                                    <input type="text" class="form-control pashto" id="validationTooltip04" name="address" placeholder="کندهار ښار" value="{{customer.address}}">
+                                    <div class="invalid-tooltip">
+                                        Please provide a valid state.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary pashto" type="submit">فورم لېږل</button>
+                    </form>
+                </div>
+            </div>
+            <!-- end card -->
+        </div> <!-- end col -->
+    </div>
+
+{% endblock page_content %}
+
+{% block js %}
+    <script src="{% static 'medicine/js/assets/libs/parsleyjs/parsley.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/js/pages/form-validation.init.js' %}"></script>
+{% endblock js %}
