@@ -1,8 +1,7 @@
 {% extends 'medicine/home.html' %}
-{% load static %}
 
-{% block page_title %}کمپنۍ شاملول{% endblock page_title %}
-{% block page_name %}کمپنۍ شاملول{% endblock page_name %}
+{% block page_title %}کمپنۍایډیټ{% endblock page_title %}
+{% block page_name %}کمپنۍ ایډیټ{% endblock page_name %}
 
 {% block page_content %}
     
@@ -10,15 +9,18 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي یوه نوې کمپنۍ اضافه کوئ.</p>
+                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي د مخکي ثبت سوي کمپنۍ معلومات نوي کوئ.</p>
                     
                     <form class="needs-validation" method='POST'>
                         {% csrf_token %}
                         <div class="row">
+                        <input type="hidden" class="form-control pashto" id="validationTooltip01" name="id" value={{ company.id }} >
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3 position-relative">
                                     <label class="form-label pashto" for="validationTooltip01">نوم</label>
-                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="name" placeholder="لومړۍ کمپنۍ" required="">
+                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="name" placeholder="لومړۍ کمپنۍ" required="" value={{ company.name }}>
                                     <div class="valid-tooltip">
                                         Looks good!
                                     </div>
@@ -27,7 +29,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3 position-relative">
                                     <label class="form-label pashto" for="validationTooltip02">برېښنالیک</label>
-                                    <input type="email" class="form-control text-start pashto" id="validationTooltip02" name="email" placeholder="example@gmail.com">
+                                    <input type="email" class="form-control text-start pashto" id="validationTooltip02" name="email" placeholder="example@gmail.com" value={{ company.email }}>
                                     <div class="valid-tooltip">
                                         Looks good!
                                     </div>
@@ -38,7 +40,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3 position-relative">
                                     <label class="form-label pashto" for="validationTooltip03">موبایل شمېره</label>
-                                    <input type="text" class="form-control pashto" id="validationTooltip03" name="phone" placeholder="07--------" required="">
+                                    <input type="text" class="form-control pashto" id="validationTooltip03" name="phone" placeholder="07--------" required="" value={{ company.phone }}>
                                     <div class="invalid-tooltip">
                                         Please provide a valid city.
                                     </div>
@@ -47,7 +49,7 @@
                             <div class="col-md-6">
                                 <div class="mb-3 position-relative">
                                     <label class="form-label pashto" for="validationTooltip04">پته</label>
-                                    <input type="text" class="form-control pashto" id="validationTooltip04"name="location" placeholder="کندهار ښار">
+                                    <input type="text" class="form-control pashto" id="validationTooltip04"name="location" placeholder="کندهار ښار" value={{ company.location }}>
                                     <div class="invalid-tooltip">
                                         Please provide a valid state.
                                     </div>
@@ -64,7 +66,3 @@
 
 {% endblock page_content %}
 
-{% block js %}
-    <script src="{% static 'medicine/js/assets/libs/parsleyjs/parsley.min.js' %}"></script>
-    <script src="{% static 'medicine/js/assets/js/pages/form-validation.init.js' %}"></script>
-{% endblock js %}

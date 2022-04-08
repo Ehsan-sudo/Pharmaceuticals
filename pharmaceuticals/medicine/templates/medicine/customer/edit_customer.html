@@ -1,8 +1,8 @@
 {% extends 'medicine/home.html' %}
 {% load static %}
 
-{% block page_title %}کمپنۍ شاملول{% endblock page_title %}
-{% block page_name %}کمپنۍ شاملول{% endblock page_name %}
+{% block page_title %}رانیوونکي ایډیټ{% endblock page_title %}
+{% block page_name %}رانیوونکي ایډیټ{% endblock page_name %}
 
 {% block page_content %}
     
@@ -10,7 +10,7 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي یوه نوې کمپنۍ اضافه کوئ.</p>
+                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي د مخکي ثبت سوي رانیوونکی معلومات ایډيټ کوئ.</p>
                     
                     <form class="needs-validation" method='POST'>
                         {% csrf_token %}
@@ -18,16 +18,17 @@
                             <div class="col-md-6">
                                 <div class="mb-3 position-relative">
                                     <label class="form-label pashto" for="validationTooltip01">نوم</label>
-                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="name" placeholder="لومړۍ کمپنۍ" required="">
+                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="name" placeholder="لومړۍ کمپنۍ" required="" value="{{customer.name}}">
                                     <div class="valid-tooltip">
                                         Looks good!
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="col-md-6">
                                 <div class="mb-3 position-relative">
-                                    <label class="form-label pashto" for="validationTooltip02">برېښنالیک</label>
-                                    <input type="email" class="form-control text-start pashto" id="validationTooltip02" name="email" placeholder="example@gmail.com">
+                                    <label class="form-label pashto" for="validationTooltip01">کمپنۍ نوم</label>
+                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="company" placeholder="لومړۍ کمپنی" value="{{customer.company_name}}">
                                     <div class="valid-tooltip">
                                         Looks good!
                                     </div>
@@ -37,17 +38,29 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3 position-relative">
-                                    <label class="form-label pashto" for="validationTooltip03">موبایل شمېره</label>
-                                    <input type="text" class="form-control pashto" id="validationTooltip03" name="phone" placeholder="07--------" required="">
-                                    <div class="invalid-tooltip">
-                                        Please provide a valid city.
+                                    <label class="form-label pashto" for="validationTooltip01">برېښنالیک</label>
+                                    <input type="email" class="form-control pashto" id="validationTooltip01" name="email" placeholder="example@gmail.com" value="{{customer.email}}">
+                                    <div class="valid-tooltip">
+                                        Looks good!
                                     </div>
                                 </div>
                             </div>
+
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip01">موبایل</label>
+                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="phone" placeholder="07-------" value="{{customer.phone}}">
+                                    <div class="valid-tooltip">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-md-6">
                                 <div class="mb-3 position-relative">
                                     <label class="form-label pashto" for="validationTooltip04">پته</label>
-                                    <input type="text" class="form-control pashto" id="validationTooltip04"name="location" placeholder="کندهار ښار">
+                                    <input type="text" class="form-control pashto" id="validationTooltip04" name="address" placeholder="کندهار ښار" value="{{customer.address}}">
                                     <div class="invalid-tooltip">
                                         Please provide a valid state.
                                     </div>

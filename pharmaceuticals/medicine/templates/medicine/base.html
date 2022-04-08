@@ -9,6 +9,8 @@
 
     <title>{% block page_title %}{% endblock page_title %}</title>
 
+    {% block style %}{% endblock style %}
+    
     <link href="{% static 'medicine/js/assets/libs/jqvmap/jqvmap.min.css' %}" rel="stylesheet" />
     <link href="{% static 'medicine/js/assets/css/icons.min.css' %}" rel="stylesheet" type="text/css" />
     <link rel="shortcut icon" href="{% static 'medicine/js/assets/images/favicon.ico' %}">
@@ -30,15 +32,7 @@
     <script src="{% static 'medicine/js/assets/libs/metismenu/metisMenu.min.js' %}"></script>
     <script src="{% static 'medicine/js/assets/libs/simplebar/simplebar.min.js' %}"></script>
     <script src="{% static 'medicine/js/assets/libs/node-waves/waves.min.js' %}"></script>
-    
-    <script src="{% static 'medicine/js/assets/libs/apexcharts/apexcharts.min.js' %}"></script>
-    <script src="{% static 'medicine/js/assets/libs/jqvmap/jquery.vmap.min.js' %}"></script>
-    <script src="{% static 'medicine/js/assets/libs/jqvmap/maps/jquery.vmap.usa.js' %}"></script>
-    <script src="{% static 'medicine/js/assets/js/pages/dashboard.init.js' %}"></script>
-    <script src="{% static 'medicine/js/assets/libs/parsleyjs/parsley.min.js' %}"></script>
-    <script src="{% static 'medicine/js/assets/js/pages/form-validation.init.js' %}"></script>
-    <script src="{% static 'medicine/js/assets/libs/table-edits/build/table-edits.min.js' %}"></script>
-    <script src="{% static 'medicine/js/assets/js/pages/table-editable.init.js' %}"></script>
+    {% block js %}{% endblock js %}
     <script src="{% static 'medicine/js/app.js' %}"></script>
 
   </body>

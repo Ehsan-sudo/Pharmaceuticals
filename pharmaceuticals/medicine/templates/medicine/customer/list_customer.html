@@ -1,7 +1,7 @@
 {% extends 'medicine/home.html' %}
 
-{% block page_title %}کمپنۍ لیست{% endblock page_title %}
-{% block page_name %}کمپنۍ لیست{% endblock page_name %}
+{% block page_title %}د مشتریانو لیست{% endblock page_title %}
+{% block page_name %}د مشتریانو لیست{% endblock page_name %}
 
 {% block page_content %}
 
@@ -9,7 +9,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title-desc pashto">په لاندي جدول کي تاسي د ثبت سوي کمپنیو لیست وینئ.</p>    
+                    <p class="card-title-desc pashto">په لاندي جدول کي تاسي د ثبت سوي مشتریانو لیست وینئ.</p>    
                     
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
@@ -17,18 +17,22 @@
                             <thead>
                                 <tr class="pashto">
                                     <th>نوم</th>
+                                    <th>کمپنۍ نوم</th>
                                     <th>برېښنالیک</th>
                                     <th>موبایل</th>
                                     <th>پته</th>
+                                    <th>پور</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                {% for company in companies %}
+                                {% for customer in customers %}
                                     <tr class="pashto">
-                                        <td><a href="{% url 'get_company' company.id %}">{{ company.name }}</a></td>
-                                        <td>{{ company.email }}</td>
-                                        <td>{{ company.phone }}</td>
-                                        <td>{{ company.location }}</td>
+                                        <td><a href="{% url 'get_customer' customer.id %}">{{ customer.name }}</a></td>
+                                        <td>{{ customer.company_name }}</td>
+                                        <td>{{ customer.email }}</td>
+                                        <td>{{ customer.phone }}</td>
+                                        <td>{{ customer.address }}</td>
+                                        <td>{{ customer.debt }}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>

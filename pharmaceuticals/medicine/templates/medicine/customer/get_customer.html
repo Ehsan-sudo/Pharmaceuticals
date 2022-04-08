@@ -1,7 +1,7 @@
 {% extends 'medicine/home.html' %}
 
-{% block page_title %} {{company.name}} {% endblock page_title %}
-{% block page_name %} {{company.name}} {% endblock page_name %}
+{% block page_title %} {{customer.name}} {% endblock page_title %}
+{% block page_name %} {{customer.name}} {% endblock page_name %}
 
 {% block page_content %}
 
@@ -9,7 +9,7 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title-desc pashto">په دې پاڼه کي تاسي د {{company.name}} په اړه معلومات وینئ.</p>    
+                    <p class="card-title-desc pashto">په دې پاڼه کي تاسي د {{customer.name}} په اړه معلومات وینئ.</p>    
                     
                     <div class="table-responsive">
                         <table class="table table-hover mb-0">
@@ -17,24 +17,28 @@
                                 <tr class="pashto">
                                     <th>ایډي</th>
                                     <th>نوم</th>
+                                    <th>کمپنۍ نوم</th>
                                     <th>برېښنالیک</th>
                                     <th>موبایل</th>
                                     <th>پته</th>
+                                    <th>پور</th>
                                     <th>لاسوهنه</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr class="pashto">
-                                    <th scope="row">{{ company.id }}</th>
-                                    <td>{{ company.name }}</td>
-                                    <td>{{ company.email }}</td>
-                                    <td>{{ company.phone }}</td>
-                                    <td>{{ company.location }}</td>
+                                    <td>{{ customer.id }}</td>
+                                    <td>{{ customer.name }}</td>
+                                    <td>{{ customer.company_name }}</td>
+                                    <td>{{ customer.email }}</td>
+                                    <td>{{ customer.phone }}</td>
+                                    <td>{{ customer.address }}</td>
+                                    <td>{{ customer.debt }}</td>
                                     <td>
-                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'edit_company' company.id %}">
+                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'edit_customer' customer.id %}">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
-                                        <a class="btn btn-outline-danger btn-sm edit" title="Edit" href="{% url 'delete_company' company.id %}">
+                                        <a class="btn btn-outline-danger btn-sm edit" title="Edit" href="{% url 'delete_customer' customer.id %}">
                                             <i class="dripicons-trash"></i>
                                         </a>
                                     </td>
