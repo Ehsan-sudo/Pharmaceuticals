@@ -1,5 +1,6 @@
 from django.db import models
 from PIL import Image
+from django.core.validators import FileExtensionValidator
 
 
 class Company(models.Model):
@@ -67,16 +68,10 @@ class Medicine(models.Model):
     formula = models.TextField(max_length=300, null=True)
     type = models.ForeignKey('MedicineType', on_delete=models.CASCADE, related_name='medicines')
     expire_date = models.DateField()
-    unit_price = models.FloatField()
+    in_price = models.FloatField()
+    out_price = models.FloatField(null=True)
     quantity = models.IntegerField()
-    image = models.ImageField(upload_to='medicine_pics', default='default.jpg', null=True)
+    image = models.ImageField(upload_to='medicine/img/', default='medicine/img/default.jpg', null=True)
 
     def __str__(self):
         return self.brand_name
-
-    def save(self, *args, **kwargs):
-        super(Medicine, self).save(*args, **kwargs)
-
-        img = Image.open(self.image.path)
-        img.thumbnail((300, 300))
-        img.save(self.image.path)

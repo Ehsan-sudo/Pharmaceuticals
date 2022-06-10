@@ -1,0 +1,26 @@
+{% extends 'medicine/home.html' %}
+{% load static %}
+
+{% block page_title %}د درملو لیست{% endblock page_title %}
+{% block page_name %}د درملو لیست{% endblock page_name %}
+
+{% block page_content %}
+
+<div class="row">
+    {% for medicine in medicines %}
+        <div class="col-md-6 col-xl-3">
+            <div class="card">
+                <a href="#" class="card-link">
+                    <div class="card-body">
+                        <h4 class="card-title">{{medicine.brand_name}}</h4>
+                        <h6 class="card-subtitle font-14 text-muted">{{medicine.out_price}}</h6>
+                    </div>
+                    <img class="img-fluid" src="{{ medicine.image }}" />
+                </a>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock page_content %}
+

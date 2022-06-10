@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from medicine.models import Company, Customer, MedicineType
+from medicine.models import Company, Customer, Medicine, MedicineType
+from django.core.files.storage import FileSystemStorage
 
 # Create your views here.
 
@@ -165,7 +166,81 @@ def delete_medicine_type(request, id):
         return redirect('list_medicine_type')
     else:
         return redirect('page_404')
-
 # MEDICINE TYPE END ==============================================>>
+
+# MEDICINE START =================================================>>
+def list_medicine(request):
+    medicines = Medicine.objects.all()
+    return render(request, 'medicine/medicine/list_medicine.html', {'medicines':medicines})
+
+def add_medicine(request):
+    if request.POST:
+        # data validation missing
+        med_type_id = request.POST.get('medicine_type')
+        brand_name = request.POST.get('brand_name')
+        medical_name = request.POST.get('medical_name')
+        formula = request.POST.get('formula')
+        type = MedicineType.objects.get(pk=med_type_id)
+        expire_date = request.POST.get('expire_date')
+        in_price = request.POST.get('in_price')
+        out_price = request.POST.get('out_price')
+        quantity = request.POST.get('quantity')
+        # validation missing: check if the uploaded file is an image
+        upload = request.FILES['medicine_img']
+        fss = FileSystemStorage()
+        file = fss.save(upload.name, upload)
+        image = fss.url(file)
+
+        Medicine.objects.create(
+            brand_name=brand_name,
+            medical_name=medical_name,
+            formula=formula,
+            type=type,
+            expire_date=expire_date,
+            in_price=in_price,
+            out_price=out_price,
+            quantity=quantity,
+            image=image
+        )
+        messages.success(request, 'معلومات په بریالیتوب سره اضافه سول!')
+        return redirect('list_medicine')
+    else:
+        return render(request, 'medicine/medicine/add_medicine.html', {'medicine_types':MedicineType.objects.all()})
+
+def edit_medicine(request, id):
+    if Customer.objects.filter(id=id).exists():
+        customer = Customer.objects.get(pk=id)
+
+        if request.POST:
+            # data validation missing
+            customer.name = request.POST.get('name')
+            customer.company_name = request.POST.get('company')
+            customer.email = request.POST.get('email')
+            customer.phone = request.POST.get('phone')
+            customer.address = request.POST.get('address')
+            customer.save()
+            messages.success(request, f'معلومات په بریالیتوب سره نوي سول!')
+            return redirect('get_medicine', id=id)
+        else:
+            return render(request, 'medicine/customer/edit_medicine.html', {'customer':customer})
+    else:
+        return redirect('page_404')
+
+def get_medicine(request, id):
+    if Customer.objects.filter(id=id).exists():
+        customer = Customer.objects.get(pk=id)
+        return render(request, 'medicine/customer/get_medicine.html', {'customer':customer})
+    else:
+        return redirect('page_404')
+
+def delete_medicine(request, id):
+    if Customer.objects.filter(id=id).exists():
+        Customer.objects.get(pk=id).delete()
+        messages.warning(request, 'معلومات په بریالیتوب سره ډیلیټ سول!')
+        return redirect('list_medicine')
+    else:
+        return redirect('page_404')
+# MEDICINE END ===================================================>>
+
 def page_404(request):
     return render(request, 'medicine/utility/pages-404.html')
