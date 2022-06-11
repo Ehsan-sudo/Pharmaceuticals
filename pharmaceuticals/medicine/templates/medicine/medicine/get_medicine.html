@@ -1,0 +1,67 @@
+{% extends 'medicine/home.html' %}
+
+{% block page_title %} {{medicine.brand_name}} {% endblock page_title %}
+{% block page_name %} {{medicine.brand_name}} {% endblock page_name %}
+
+{% block page_content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title-desc pashto">په دې پاڼه کي تاسي د {{medicine.brand_name}} په اړه معلومات وینئ.</p>    
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr class="pashto">
+                                    <th>تجارتي نوم</th>
+                                    <th>طبي نوم</th>
+                                    <th>فارموله</th>
+                                    <th>درمل ډول</th>
+                                    <th>اکسپایر نېټه</th>
+                                    <th>رانیولو بیه</th>
+                                    <th>خرڅولو بیه</th>
+                                    <th>ټوټل شمېر</th>
+                                    <th>لاسوهنه</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="pashto">
+                                    <td>{{medicine.brand_name}}</td>
+                                    <td>{{medicine.medical_name}}</td>
+                                    <td>{{medicine.formula}}</td>
+                                    <td>{{medicine.medicine_type}}</td>
+                                    <td>{{medicine.expire_date}}</td>
+                                    <td>{{medicine.in_price}}</td>
+                                    <td>{{medicine.out_price}}</td>
+                                    <td>{{medicine.quantity}}</td>
+                                    <td>
+                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'edit_medicine' medicine.id %}">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger btn-sm edit" title="Edit" href="{% url 'delete_medicine' medicine.id %}">
+                                            <i class="dripicons-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Some statistics</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock page_content %}
+

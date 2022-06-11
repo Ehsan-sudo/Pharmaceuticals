@@ -9,8 +9,8 @@
 <div class="row">
     {% for medicine in medicines %}
         <div class="col-md-6 col-xl-3">
-            <div class="card">
-                <a href="#" class="card-link">
+            <div class="card medicine-card">
+                <a href="{% url 'get_medicine' medicine.id %}" class="card-link">
                     <div class="card-body">
                         <h4 class="card-title">{{medicine.brand_name}}</h4>
                         <h6 class="card-subtitle font-14 text-muted">{{medicine.out_price}}</h6>

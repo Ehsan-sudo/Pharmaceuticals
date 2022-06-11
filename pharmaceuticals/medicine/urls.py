@@ -25,7 +25,7 @@ urlpatterns = [
     path('add-medicine-type/', views.add_medicine_type, name='add_medicine_type'),
     path('delete-medicine-type/<int:id>/', views.delete_medicine_type, name='delete_medicine_type'),
 
-    # medicine type routes
+    # medicine routes
     path('list-medicine/', views.list_medicine, name='list_medicine'),
     path('edit-medicine/<int:id>/', views.edit_medicine, name='edit_medicine'),
     path('get-medicine/<int:id>/', views.get_medicine, name='get_medicine'),

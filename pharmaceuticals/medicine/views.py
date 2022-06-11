@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from medicine.models import Company, Customer, Medicine, MedicineType
 from django.core.files.storage import FileSystemStorage
+from PIL import Image
 
 # Create your views here.
 
@@ -208,28 +209,35 @@ def add_medicine(request):
         return render(request, 'medicine/medicine/add_medicine.html', {'medicine_types':MedicineType.objects.all()})
 
 def edit_medicine(request, id):
-    if Customer.objects.filter(id=id).exists():
-        customer = Customer.objects.get(pk=id)
+    if Medicine.objects.filter(id=id).exists():
+        medicine = Medicine.objects.get(pk=id)
 
         if request.POST:
             # data validation missing
-            customer.name = request.POST.get('name')
-            customer.company_name = request.POST.get('company')
-            customer.email = request.POST.get('email')
-            customer.phone = request.POST.get('phone')
-            customer.address = request.POST.get('address')
-            customer.save()
+            medicine.brand_name = request.POST.get('brand_name')
+            medicine.medical_name = request.POST.get('medical_name')
+            medicine.formula = request.POST.get('formula')
+            medicine.type = MedicineType.objects.get(pk=request.POST.get('medicine_type'))
+            if request.POST.get('expire_date') == '':
+                medicine.expire_date = '2022-02-02'
+            else:
+                medicine.expire_date = request.POST.get('expire_date')
+            medicine.in_price = request.POST.get('in_price')
+            medicine.out_price = request.POST.get('out_price')
+            medicine.quantity = request.POST.get('quantity')
+            
+            medicine.save()
             messages.success(request, f'معلومات په بریالیتوب سره نوي سول!')
             return redirect('get_medicine', id=id)
         else:
-            return render(request, 'medicine/customer/edit_medicine.html', {'customer':customer})
+            return render(request, 'medicine/medicine/edit_medicine.html', {'medicine':medicine, 'medicine_types':MedicineType.objects.all()})
     else:
         return redirect('page_404')
 
 def get_medicine(request, id):
-    if Customer.objects.filter(id=id).exists():
-        customer = Customer.objects.get(pk=id)
-        return render(request, 'medicine/customer/get_medicine.html', {'customer':customer})
+    if Medicine.objects.filter(id=id).exists():
+        medicine = Medicine.objects.get(pk=id)
+        return render(request, 'medicine/medicine/get_medicine.html', {'medicine':medicine})
     else:
         return redirect('page_404')
 
