@@ -1,0 +1,122 @@
+{% extends 'medicine/home.html' %}
+{% load static %}
+
+{% block page_title %}بیل شاملول{% endblock page_title %}
+{% block page_name %}بیل شاملول{% endblock page_name %}
+
+{% block page_content %}
+    
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي یو نوی درمل اضافه کوئ.</p>
+                    
+                    <form class="needs-validation" method='POST' enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip01">تجارتي نوم</label>
+                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="brand_name" placeholder="اینزیت 250" required="">
+                                    <div class="valid-tooltip">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip01">طبي نوم</label>
+                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="medical_name" placeholder="ایزیترومایسین">
+                                    <div class="valid-tooltip">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip01">فارموله</label>
+                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="formula" placeholder="ترکیبي فارموله">
+                                    <div class="valid-tooltip">
+                                        Looks good!
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">  
+                                <div class="mb-3 position-relative pashto">
+                                    <label class="form-label" for="validationTooltip01">درمل ډول</label>
+                                    <select class="form-control" id="bill-product-name-select" dir="rtl" name="medicine_type">                                    
+                                        {% for medicine_type in medicine_types %}
+                                            <option value="{{medicine_type.id}}">{{medicine_type.type}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip04">اکسپایر نېټه</label>
+                                    <input class="form-control" type="date" value="2019-08-19" id="example-date-input" name="expire_date">                                    <div class="invalid-tooltip">
+                                        Please provide a valid state.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip04">رانیولو بیه</label>
+                                    <input class="form-control" type="number" placeholder="0" id="example-number-input" name="in_price">
+                                    <div class="invalid-tooltip">
+                                        Please provide a valid state.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip04">خرڅولو بیه</label>
+                                    <input class="form-control" type="number" placeholder="0" id="example-number-input" name="out_price">
+                                    <div class="invalid-tooltip">
+                                        Please provide a valid state.
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip04">ټوټل شمېر</label>
+                                    <input class="form-control" type="number" placeholder="0" id="example-date-input" name="quantity">                                    <div class="invalid-tooltip">
+                                        Please provide a valid state.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip04">انځور</label>
+                                    <input class="form-control" type="file" id="example-number-input" name="medicine_img">
+                                    <div class="invalid-tooltip">
+                                        Please provide a valid state.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary pashto" type="submit">فورم لېږل</button>
+                    </form>
+                </div>
+            </div>
+            <!-- end card -->
+        </div> <!-- end col -->
+    </div>
+
+{% endblock page_content %}
+
+{% block js %}
+    <script src="{% static 'medicine/js/assets/libs/parsleyjs/parsley.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/js/pages/form-validation.init.js' %}"></script>
+{% endblock js %}

@@ -1,0 +1,89 @@
+{% extends 'medicine/home.html' %}
+
+{% block page_title %} {{customer_purchase.id}} {% endblock page_title %}
+{% block page_name %} {{customer_purchase.id}} بیل ایډي {% endblock page_name %}
+
+{% block page_content %}
+
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title-desc pashto">په دې پاڼه کي تاسي د {{customer_purchase.id}} بیل په اړه معلومات وینئ.</p>    
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr class="pashto">
+                                    <th>مشتري</th>
+                                    <th>د بیل ټوټل</th>
+                                    <th>نېټه</th>
+                                    <th>لاسوهنه</th>
+                                    <th>چاپ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="pashto">
+                                    <td><a href="{% url 'get_customer' customer_purchase.customer.id %}">{{ customer_purchase.customer.name }}</a></td>
+                                    <td>{{total}}</td>
+                                    <td>{{customer_purchase.date}}</td>
+                                    <td>
+                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'get_customer_purchase' customer_purchase.id %}">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger btn-sm edit" title="Edit" href="{% url 'delete_customer_purchase' customer_purchase.id %}">
+                                            <i class="dripicons-trash"></i>
+                                        </a>
+                                    </td>
+                                    <td>print</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr class="pashto">
+                                <th>د درمل نوم</th>
+                                <th>تعداد</th>
+                                <th>فی قیمت</th>
+                                <th>ټوله</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for medicine in medicines %}
+                            <tr class="pashto">
+                                <td>{{medicine.medicine.brand_name}}</td>
+                                <td>{{medicine.quantity}}</td>
+                                <td>{{medicine.unit_price}}</td>
+                                <td>{% widthratio medicine.unit_price 1 medicine.quantity %}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Some notes of the bill</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock page_content %}
+

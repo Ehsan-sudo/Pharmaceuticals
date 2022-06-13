@@ -1,0 +1,43 @@
+{% extends 'medicine/home.html' %}
+{% load static %}
+
+{% block page_title %}د بیلونو لیست{% endblock page_title %}
+{% block page_name %}د بیلونو لیست{% endblock page_name %}
+
+{% block page_content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title-desc pashto">په لاندي جدول کي تاسي د ثبت سوي بیلونو لیست وینئ.</p>    
+                
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+
+                        <thead>
+                            <tr class="pashto">
+                                <th>نمبر</th>
+                                <th>مشتري</th>
+                                <th>مجموعه مبلغ</th>
+                                <th>نېټه</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for customer_purchase in customer_purchases %}
+                                <tr class="pashto">
+                                    <td><a href="{% url 'get_customer_purchase' customer_purchase.id %}">{{ customer_purchase.id }}</a></td>
+                                    <td><a href="{% url 'get_customer' customer_purchase.customer.id %}">{{ customer_purchase.customer.name }}</a></td>
+                                    <td>{{ total_amount }}</td>
+                                    <td>{{ customer_purchase.date }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+

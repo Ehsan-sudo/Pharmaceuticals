@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from medicine.models import Company, Customer, Medicine, MedicineType
+from medicine.models import Company, Customer, CustomerPurchase, Medicine, MedicineType
 from django.core.files.storage import FileSystemStorage
 from PIL import Image
 
@@ -122,6 +122,32 @@ def delete_customer(request, id):
         return redirect('page_404')
 # CUSTOMER VIEWS END =============================================>>
 
+# CUSTOMER PURCHASE START ========================================>>
+def list_customer_purchase(request):
+    customer_purchases = CustomerPurchase.objects.all()
+    return render(request, 'medicine/customer_purchase/list_customer_purchase.html', {'customer_purchases':customer_purchases})
+
+def add_customer_purchase(request):
+    pass
+
+def edit_customer_purchase(request):
+    pass
+
+def get_customer_purchase(request, id):
+    if CustomerPurchase.objects.filter(id=id).exists():
+        customer_purchase = CustomerPurchase.objects.get(pk=id)
+        medicines = customer_purchase.medicines.all()
+        total = 0
+        for medicine in medicines:
+            total += medicine.unit_price * medicine.quantity
+        return render(request, 'medicine/customer_purchase/get_customer_purchase.html', {'customer_purchase':customer_purchase, 'medicines':medicines, 'total':total})
+    else:
+        return redirect('page_404')
+
+def delete_customer_purchase(request):
+    pass
+
+# CUSTOMER PURCHASE END ==========================================>>
 
 # MEDICINE TYPE START ============================================>>
 def list_medicine_type(request):

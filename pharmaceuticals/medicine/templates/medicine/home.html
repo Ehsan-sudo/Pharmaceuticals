@@ -149,8 +149,7 @@
                     <div id="sidebar-menu">
                         <!-- Left Menu Start -->
                         <ul class="metismenu list-unstyled" id="side-menu">
-                            <li class="menu-title">Menu</li>
-
+                            <li class="menu-title">مینیو</li>
                             <li>
                                 <a href="index.html" class="waves-effect">
                                     <i class="mdi mdi-home-variant-outline"></i><span
@@ -158,14 +157,6 @@
                                     <span>اصلي پاڼه</span>
                                 </a>
                             </li>
-
-                            <li>
-                                <a href="calendar.html" class=" waves-effect">
-                                    <i class="mdi mdi-calendar-outline"></i>
-                                    <span>Calendar</span>
-                                </a>
-                            </li>
-
                             <li>
                                 <a href="javascript: void(0);" class="has-arrow waves-effect">
                                     <i class="mdi mdi-email-outline"></i>
@@ -184,6 +175,18 @@
                                 <ul class="sub-menu" aria-expanded="false">
                                     <li><a href="{% url 'list_customer' %}">رانیوونکو لیست</a></li>
                                     <li><a href="{% url 'add_customer' %}">رانیوونکي شاملول</a></li>
+                                </ul>
+                            </li>
+
+                            <li class="menu-title">بیل</li>
+                            <li>
+                                <a href="javascript: void(0);" class="has-arrow waves-effect">
+                                    <i class="mdi mdi-email-outline"></i>
+                                    <span>بیل</span>
+                                </a>
+                                <ul class="sub-menu" aria-expanded="false">
+                                    <li><a href="{% url 'list_customer_purchase' %}">د بیلونو لیست</a></li>
+                                    <li><a href="{% url 'add_customer_purchase' %}">د بیل شاملول</a></li>
                                 </ul>
                             </li>
 

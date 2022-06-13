@@ -18,6 +18,13 @@ urlpatterns = [
     path('add-customer/', views.add_customer, name='add_customer'),
     path('delete-customer/<int:id>/', views.delete_customer, name='delete_customer'),
 
+    # customer purchase routes
+    path('list-customer-purchase/', views.list_customer_purchase, name='list_customer_purchase'),
+    path('edit-customer-purchase/<int:id>/', views.edit_customer_purchase, name='edit_customer_purchase'),
+    path('get-customer-purchase/<int:id>/', views.get_customer_purchase, name='get_customer_purchase'),
+    path('add-customer-purchase/', views.add_customer_purchase, name='add_customer_purchase'),
+    path('delete-customer-purchase/<int:id>/', views.delete_customer_purchase, name='delete_customer_purchase'),
+
     # medicine type routes
     path('list-medicine-type/', views.list_medicine_type, name='list_medicine_type'),
     path('edit-medicine-type/<int:id>/', views.edit_medicine_type, name='edit_medicine_type'),
@@ -31,7 +38,7 @@ urlpatterns = [
     path('get-medicine/<int:id>/', views.get_medicine, name='get_medicine'),
     path('add-medicine/', views.add_medicine, name='add_medicine'),
     path('delete-medicine/<int:id>/', views.delete_medicine, name='delete_medicine'),
-    
+     
     path('not-found-404/', views.page_404, name='page_404'),
 
 ]
