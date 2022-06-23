@@ -186,7 +186,7 @@
                                 </a>
                                 <ul class="sub-menu" aria-expanded="false">
                                     <li><a href="{% url 'list_customer_purchase' %}">د بیلونو لیست</a></li>
-                                    <li><a href="{% url 'add_customer_purchase' %}">د بیل شاملول</a></li>
+                                    <li><a href="{% url 'customer_purchase' %}">د بیل شاملول</a></li>
                                 </ul>
                             </li>
 
@@ -266,7 +266,5 @@
 {% endblock %}
 
 {% block js %}
-    <script src="assets/libs/jqvmap/jquery.vmap.min.js"></script>
-    <script src="assets/libs/jqvmap/maps/jquery.vmap.usa.js"></script>
-    <script src="assets/js/pages/dashboard.init.js"></script>
+
 {% endblock js %}

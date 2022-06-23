@@ -22,6 +22,7 @@ urlpatterns = [
     path('list-customer-purchase/', views.list_customer_purchase, name='list_customer_purchase'),
     path('edit-customer-purchase/<int:id>/', views.edit_customer_purchase, name='edit_customer_purchase'),
     path('get-customer-purchase/<int:id>/', views.get_customer_purchase, name='get_customer_purchase'),
+    path('customer-purchase/', views.customer_purchase, name='customer_purchase'),
     path('add-customer-purchase/', views.add_customer_purchase, name='add_customer_purchase'),
     path('delete-customer-purchase/<int:id>/', views.delete_customer_purchase, name='delete_customer_purchase'),
 

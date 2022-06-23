@@ -3,6 +3,8 @@ from django.contrib import messages
 from medicine.models import Company, Customer, CustomerPurchase, Medicine, MedicineType
 from django.core.files.storage import FileSystemStorage
 from PIL import Image
+from django.http import JsonResponse
+import json
 
 # Create your views here.
 
@@ -127,8 +129,14 @@ def list_customer_purchase(request):
     customer_purchases = CustomerPurchase.objects.all()
     return render(request, 'medicine/customer_purchase/list_customer_purchase.html', {'customer_purchases':customer_purchases})
 
+def customer_purchase(request):
+    medicines = Medicine.objects.all()
+    return render(request, 'medicine/customer_purchase/add_customer_purchase.html', {'medicines':medicines})
+
 def add_customer_purchase(request):
-    pass
+    received_data = json.loads(request.body) 
+    
+    return JsonResponse({'response':'Yesssssssss!'})
 
 def edit_customer_purchase(request):
     pass
