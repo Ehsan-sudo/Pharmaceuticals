@@ -12,38 +12,7 @@
                 <div class="card-body">
                     <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي یو نوی بیل اضافه کوئ.</p>
                     <div id="parent-div-for-rows">
-                        <div class="row">
-                            <div class="col-md-5">  
-                                <div class="mb-3 position-relative pashto">
-                                    <label class="form-label" for="validationTooltip01">درمل ډول</label>
-                                    <select class="form-control" dir="rtl" name="medicine_type">                                    
-                                        {% for medicine in medicines %}
-                                            <option value="{{medicine.id}}">{{medicine.brand_name}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
-    
-                            <div class="col-md-2">
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label pashto" for="validationTooltip04">بیه</label>
-                                    <input class="form-control" type="number" placeholder="0" id="example-number-input" name="in_price">
-                                    <div class="invalid-tooltip">
-                                        Please provide a valid state.
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="col-md-2">
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label pashto" for="validationTooltip04">تعداد</label>
-                                    <input class="form-control" type="number" placeholder="0" id="example-number-input" name="in_price">
-                                    <div class="invalid-tooltip">
-                                        Please provide a valid state.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        
                     </div>
                     <div class="col-md-2">
                         <div class="mb-3 position-relative">
@@ -65,14 +34,9 @@
 
 {% block js %}
 <script>
-    medicine = []
-    option = {}
-    
+    medicine = {}
     {% for medicine in medicines %}
-        option = document.createElement('option');
-        option.value = "{{medicine.id}}";
-        option.innerHTML = "{{medicine.brand_name}}"
-        medicine.push(option);
+        medicine['{{medicine.id}}'] = '{{medicine.brand_name}}';
     {% endfor %}
 
     url_to = '{% url "add_customer_purchase" %}';

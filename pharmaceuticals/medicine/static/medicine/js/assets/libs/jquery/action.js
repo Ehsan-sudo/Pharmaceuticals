@@ -52,9 +52,13 @@ submitButton.onclick = function(){
 
 
 // ----- CREATING ROW ----------
-count = 1;
 addRow.onclick = (e) => {
-    // the row div
+    parent.append(rowCreate());
+}
+
+// creating row
+const rowCreate = () => {
+    // creat base div
     let row = document.createElement('div');
     row.classList.add('row');
 
@@ -66,31 +70,67 @@ addRow.onclick = (e) => {
     drugNameFieldSub.classList.add('mb-3', 'position-relative', 'pashto');
 
     let drugNameFieldSubLable = document.createElement('label');
-    drugNameFieldSubLable.textContent = 'د درمل ډول'+count;
+    drugNameFieldSubLable.textContent = 'د درمل نوم';
 
     let drugNameFieldSubSelect = document.createElement('select');
     drugNameFieldSubSelect.classList.add('form-control');
-    drugNameFieldSubSelect.name = 'medicine_type';
     drugNameFieldSubSelect.dir = 'rtl';
-    for (const med of medicine) { drugNameFieldSubSelect.appendChild(med); }
+    for (const med in medicine) {
+        option = document.createElement('option');
+        option.value = med;
+        option.innerHTML = medicine[med];
+        drugNameFieldSubSelect.append(option);
+    }
 
     drugNameFieldSub.append(drugNameFieldSubLable);
     drugNameFieldSub.append(drugNameFieldSubSelect);
 
     drugNameField.append(drugNameFieldSub);
 
-
-    // the price input div
+     // the price input div
     priceField = document.createElement('div');
     priceField.classList.add('col-md-2');
+
+    priceFieldSub = document.createElement('div');
+    priceFieldSub.classList.add('mb-3', 'position-relative', 'pashto');
+
+    let priceFieldSubLable = document.createElement('label');
+    priceFieldSubLable.textContent = 'بیه';
+
+    let priceFieldSubInput = document.createElement('input');
+    priceFieldSubInput.classList.add('form-control');
+    priceFieldSubInput.type = "number";
+    priceFieldSubInput.placeholder = "0";
+
+    priceFieldSub.append(priceFieldSubLable);
+    priceFieldSub.append(priceFieldSubInput);
+
+    priceField.append(priceFieldSub);
+
 
     // the quantity input div
     quantityField = document.createElement('div');
     quantityField.classList.add('col-md-2');
 
+    quantityFieldSub = document.createElement('div');
+    quantityFieldSub.classList.add('mb-3', 'position-relative', 'pashto');
 
-    // appending the tree
+    let quantityFieldSubLable = document.createElement('label');
+    quantityFieldSubLable.textContent = 'تعداد';
+
+    let quantityFieldSubInput = document.createElement('input');
+    quantityFieldSubInput.classList.add('form-control');
+    quantityFieldSubInput.type = "number";
+    quantityFieldSubInput.placeholder = "0";
+
+    quantityFieldSub.append(quantityFieldSubLable);
+    quantityFieldSub.append(quantityFieldSubInput);
+
+    quantityField.append(quantityFieldSub);
+
     row.append(drugNameField);
-    parent.append(row);
-    count++;
+    row.append(priceField);
+    row.append(quantityField);
+
+    return row;
 }
