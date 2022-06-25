@@ -2,6 +2,7 @@ submitButton = document.getElementById('submit');
 parent = document.getElementById('parent-div-for-rows');
 addRow = document.getElementById('addRow');
 removeRow = document.getElementById('removeRow');
+grandTotal = document.getElementById('grand-total');
 
 names = {
     'Person1': 'Ahmad',
@@ -29,6 +30,39 @@ const csrftoken = getCookie('csrftoken');
 
 // ----------------------------------------------
 
+// -----  Price & Quantity ONCHANG -----------
+countRows = 0;
+const priceOnChange = (e) => {
+    let quantity = parseInt(e.path[3].childNodes[2].childNodes[0].childNodes[0].value);
+    if (isNaN(quantity)){
+        quantity = 1;
+    }
+    let price = e.target.value;
+    e.path[3].childNodes[3].childNodes[0].childNodes[0].innerHTML = quantity*price;
+    updateGrandTotalAdd();
+}
+const quantityOnChange = (e) => {
+    let price = parseInt(e.path[3].childNodes[1].childNodes[0].childNodes[0].value);
+    if (isNaN(price)){
+        price = 1;
+    }
+    let quantity = e.target.value;
+    e.path[3].childNodes[3].childNodes[0].childNodes[0].innerHTML = quantity*price;
+    updateGrandTotalAdd();
+}
+const updateGrandTotalAdd = () => {
+    let gt = 0;
+    for(let i=0;i<parent.childNodes.length;i++){
+        gt += parseInt(parent.childNodes[i].childNodes[3].childNodes[0].childNodes[0].innerHTML);
+    }
+    grandTotal.innerHTML = gt;
+}
+const updateGrandTotalRemove = () => {
+    let amount = parseInt(parent.lastChild.childNodes[3].childNodes[0].childNodes[0].innerHTML);
+    grandTotal.innerHTML = parseInt(grandTotal.innerHTML)-amount;
+}
+
+// ------- Submit ONCLICK
 submitButton.onclick = function(){
     console.log('submit button clicked');
     $.ajax({
@@ -51,12 +85,10 @@ submitButton.onclick = function(){
 };
 
 
-// ----- CREATING ROW ----------
+// ----- AddRow ONCLICK ----------
 addRow.onclick = (e) => {
     parent.append(rowCreate());
 }
-
-// creating row
 const rowCreate = () => {
     // creat base div
     let row = document.createElement('div');
@@ -69,9 +101,6 @@ const rowCreate = () => {
     let drugNameFieldSub = document.createElement('div');
     drugNameFieldSub.classList.add('mb-3', 'position-relative', 'pashto');
 
-    let drugNameFieldSubLable = document.createElement('label');
-    drugNameFieldSubLable.textContent = 'د درمل نوم';
-
     let drugNameFieldSubSelect = document.createElement('select');
     drugNameFieldSubSelect.classList.add('form-control');
     drugNameFieldSubSelect.dir = 'rtl';
@@ -81,8 +110,6 @@ const rowCreate = () => {
         option.innerHTML = medicine[med];
         drugNameFieldSubSelect.append(option);
     }
-
-    drugNameFieldSub.append(drugNameFieldSubLable);
     drugNameFieldSub.append(drugNameFieldSubSelect);
 
     drugNameField.append(drugNameFieldSub);
@@ -94,15 +121,12 @@ const rowCreate = () => {
     priceFieldSub = document.createElement('div');
     priceFieldSub.classList.add('mb-3', 'position-relative', 'pashto');
 
-    let priceFieldSubLable = document.createElement('label');
-    priceFieldSubLable.textContent = 'بیه';
-
     let priceFieldSubInput = document.createElement('input');
     priceFieldSubInput.classList.add('form-control');
+    priceFieldSubInput.onchange = priceOnChange;
     priceFieldSubInput.type = "number";
-    priceFieldSubInput.placeholder = "0";
+    priceFieldSubInput.placeholder = "بیه";
 
-    priceFieldSub.append(priceFieldSubLable);
     priceFieldSub.append(priceFieldSubInput);
 
     priceField.append(priceFieldSub);
@@ -115,22 +139,47 @@ const rowCreate = () => {
     quantityFieldSub = document.createElement('div');
     quantityFieldSub.classList.add('mb-3', 'position-relative', 'pashto');
 
-    let quantityFieldSubLable = document.createElement('label');
-    quantityFieldSubLable.textContent = 'تعداد';
-
     let quantityFieldSubInput = document.createElement('input');
     quantityFieldSubInput.classList.add('form-control');
     quantityFieldSubInput.type = "number";
-    quantityFieldSubInput.placeholder = "0";
+    quantityFieldSubInput.placeholder = "تعداد";
+    quantityFieldSubInput.onchange = quantityOnChange;
 
-    quantityFieldSub.append(quantityFieldSubLable);
     quantityFieldSub.append(quantityFieldSubInput);
 
     quantityField.append(quantityFieldSub);
 
+    // the total input div
+    totalField = document.createElement('div');
+    totalField.classList.add('col-md-2');
+
+    totalFieldSub = document.createElement('div');
+    totalFieldSub.classList.add('mb-3', 'position-relative', 'pashto');
+
+    let totalFieldSubValue = document.createElement('label');
+    totalFieldSubValue.textContent = '0';
+    totalFieldSubValue.classList.add('mb-0', 'mt-2');
+
+    totalFieldSub.append(totalFieldSubValue);
+    totalField.append(totalFieldSub);
+
+    hr = document.createElement('hr');
+    hr.style = "height:2px;text-align:left;margin-left:0;margin-left:0;";
+    // appedning all the dives to parent div
     row.append(drugNameField);
     row.append(priceField);
     row.append(quantityField);
+    row.append(totalField);
+    row.append(hr);
 
+    countRows++;
     return row;
+}
+
+// ----- RemoveRow ONCLICK --------
+removeRow.onclick = () =>{
+    if(parent.hasChildNodes()){
+        updateGrandTotalRemove();
+        parent.removeChild(parent.lastChild);
+    }
 }

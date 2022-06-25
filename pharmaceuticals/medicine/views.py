@@ -131,7 +131,8 @@ def list_customer_purchase(request):
 
 def customer_purchase(request):
     medicines = Medicine.objects.all()
-    return render(request, 'medicine/customer_purchase/add_customer_purchase.html', {'medicines':medicines})
+    customers = Customer.objects.all()
+    return render(request, 'medicine/customer_purchase/add_customer_purchase.html', {'medicines':medicines, 'customers':customers})
 
 def add_customer_purchase(request):
     received_data = json.loads(request.body) 
