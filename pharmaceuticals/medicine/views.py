@@ -136,8 +136,8 @@ def customer_purchase(request):
 
 def add_customer_purchase(request):
     received_data = json.loads(request.body) 
-    
-    return JsonResponse({'response':'Yesssssssss!'})
+    print(received_data)
+    return JsonResponse({'response!':received_data})
 
 def edit_customer_purchase(request):
     pass
@@ -277,8 +277,8 @@ def get_medicine(request, id):
         return redirect('page_404')
 
 def delete_medicine(request, id):
-    if Customer.objects.filter(id=id).exists():
-        Customer.objects.get(pk=id).delete()
+    if Medicine.objects.filter(id=id).exists():
+        Medicine.objects.get(pk=id).delete()
         messages.warning(request, 'معلومات په بریالیتوب سره ډیلیټ سول!')
         return redirect('list_medicine')
     else:

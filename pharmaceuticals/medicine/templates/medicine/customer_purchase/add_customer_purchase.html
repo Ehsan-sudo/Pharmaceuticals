@@ -15,7 +15,7 @@
                     
                     <div class="col-md-3 mb-2 pashto">
                         <label class="form-label" for="validationTooltip01">رانیوونکی</label>
-                        <select class="form-control" id="bill-product-name-select" dir="rtl" name="customer">                                    
+                        <select class="form-control" id="customer_purchase_customers" dir="rtl" name="customer">                                    
                             {% for customer in customers %}
                                 <option value="{{customer.id}}">{{customer.name}}</option>
                             {% endfor %}
@@ -55,7 +55,7 @@
 <script>
     medicine = {}
     {% for medicine in medicines %}
-        medicine['{{medicine.id}}'] = '{{medicine.brand_name}}';
+        medicine['{{medicine.id}}'] = {'name':'{{medicine.brand_name}}', 'price':'{{medicine.out_price}}'};
     {% endfor %}
 
     url_to = '{% url "add_customer_purchase" %}';

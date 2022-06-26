@@ -3,12 +3,7 @@ parent = document.getElementById('parent-div-for-rows');
 addRow = document.getElementById('addRow');
 removeRow = document.getElementById('removeRow');
 grandTotal = document.getElementById('grand-total');
-
-names = {
-    'Person1': 'Ahmad',
-    'Person2': 'Mahmood'
-}
-response_from_server = {}
+customer = document.getElementById('customer_purchase_customers');
 
 
 function getCookie(name) {
@@ -27,6 +22,40 @@ function getCookie(name) {
     return cookieValue;
 }
 const csrftoken = getCookie('csrftoken');
+submitButton.onclick = function(){
+    let selections = preparePurchaseData();
+
+    // ajax call
+    $.ajax({
+        url: url_to,
+        type: 'POST',
+        headers: {'X-CSRFToken': csrftoken},
+        contentType: 'application/json; charset=UTF-8',
+        async: false, 
+        data: JSON.stringify(selections),
+        dataType: 'json',
+        success: (response)=>{
+            console.log('success response!');
+            console.log(response);
+        },
+        'error': (response)=>{
+            console.log('error response!');
+            console.log(response);
+        }
+    });
+};
+
+const preparePurchaseData = () => {
+    let selections = {'selections':[], 'customer':-1};
+    for(let i=0;i<parent.childNodes.length;i++){
+        let selectedDrugID = parent.childNodes[i].childNodes[0].childNodes[0].childNodes[0].value;
+        let price = parent.childNodes[i].childNodes[1].childNodes[0].childNodes[0].value;
+        let quantity = parent.childNodes[i].childNodes[2].childNodes[0].childNodes[0].value;
+        selections['selections'].push({'id':selectedDrugID, 'price':price, 'quantity':quantity})
+        selections['customer'] = customer.value;
+    }
+    return selections;
+}
 
 // ----------------------------------------------
 
@@ -62,29 +91,6 @@ const updateGrandTotalRemove = () => {
     grandTotal.innerHTML = parseInt(grandTotal.innerHTML)-amount;
 }
 
-// ------- Submit ONCLICK
-submitButton.onclick = function(){
-    console.log('submit button clicked');
-    $.ajax({
-        url: url_to,
-        type: 'POST',
-        headers: {'X-CSRFToken': csrftoken},
-        contentType: 'application/json; charset=UTF-8',
-        async: false, 
-        data: JSON.stringify({'names': names}),
-        dataType: 'json',
-        success: ()=>{
-            console.log('response sent!');
-        },
-        'error': (response)=>{
-            console.log('error response!');
-            console.log(response);
-            response_from_server = response;
-        }
-    });
-};
-
-
 // ----- AddRow ONCLICK ----------
 addRow.onclick = (e) => {
     parent.append(rowCreate());
@@ -107,9 +113,11 @@ const rowCreate = () => {
     for (const med in medicine) {
         option = document.createElement('option');
         option.value = med;
-        option.innerHTML = medicine[med];
+        option.innerHTML = medicine[med].name;
         drugNameFieldSubSelect.append(option);
     }
+    drugNameFieldSubSelect.onclick = drugNameSelect;
+
     drugNameFieldSub.append(drugNameFieldSubSelect);
 
     drugNameField.append(drugNameFieldSub);
@@ -182,4 +190,10 @@ removeRow.onclick = () =>{
         updateGrandTotalRemove();
         parent.removeChild(parent.lastChild);
     }
+}
+
+// ------ Drug name select onchange --------
+const drugNameSelect = (e) => {
+    e.path[3].childNodes[1].childNodes[0].childNodes[0].value = null;
+    e.path[3].childNodes[1].childNodes[0].childNodes[0].placeholder = medicine[e.target.value].price;
 }
