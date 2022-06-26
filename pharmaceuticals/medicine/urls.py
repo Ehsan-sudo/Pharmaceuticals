@@ -40,6 +40,8 @@ urlpatterns = [
     path('add-medicine/', views.add_medicine, name='add_medicine'),
     path('delete-medicine/<int:id>/', views.delete_medicine, name='delete_medicine'),
      
+
+    # utility routes
     path('not-found-404/', views.page_404, name='page_404'),
 
 ]

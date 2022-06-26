@@ -35,8 +35,9 @@ submitButton.onclick = function(){
         data: JSON.stringify(selections),
         dataType: 'json',
         success: (response)=>{
-            console.log('success response!');
-            console.log(response);
+            alert('بیل په بریالیتوب سره ثبت سو!');
+            parent.textContent = '';
+            grandTotal.textContent = '0';
         },
         'error': (response)=>{
             console.log('error response!');

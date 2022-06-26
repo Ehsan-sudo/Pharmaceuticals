@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from medicine.models import Company, Customer, CustomerPurchase, Medicine, MedicineType
+from medicine.models import Company, Customer, CustomerPurchase, Medicine, MedicineType, CustomerPurchaseMedicine
 from django.core.files.storage import FileSystemStorage
 from PIL import Image
 from django.http import JsonResponse
@@ -136,8 +136,12 @@ def customer_purchase(request):
 
 def add_customer_purchase(request):
     received_data = json.loads(request.body) 
-    print(received_data)
-    return JsonResponse({'response!':received_data})
+    customer_purchase = CustomerPurchase.objects.create(customer_id=int(received_data['customer']))
+    for selection in received_data['selections']:
+        medicine = Medicine.objects.get(pk=int(selection['id']))
+        cpm = CustomerPurchaseMedicine.objects.create(medicine=medicine, purchase=customer_purchase, quantity=int(selection['quantity']), unit_price=int(selection['price']))
+        print('SUCCESS!')
+    return JsonResponse({'message':'SUCCESS'})
 
 def edit_customer_purchase(request):
     pass
@@ -153,10 +157,19 @@ def get_customer_purchase(request, id):
     else:
         return redirect('page_404')
 
-def delete_customer_purchase(request):
+def delete_customer_purchase(request,id):
     pass
-
 # CUSTOMER PURCHASE END ==========================================>>
+
+# CUSTOMER PURCHASE MEDICINE START ===============================>>
+''' if CustomerPurchaseMedicine.objects.filter(id=id).exists():
+        CustomerPurchaseMedicine.objects.get(pk=id).delete()
+        messages.warning(request, 'معلومات په بریالیتوب سره ډیلیټ سول!')
+        return redirect('list_customer_purchase')
+    else:
+        return redirect('page_404')'''
+# CUSTOMER PURCHASE MEDICINE END =================================>>
+
 
 # MEDICINE TYPE START ============================================>>
 def list_medicine_type(request):
