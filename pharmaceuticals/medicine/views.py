@@ -100,6 +100,7 @@ def edit_customer(request, id):
             customer.email = request.POST.get('email')
             customer.phone = request.POST.get('phone')
             customer.address = request.POST.get('address')
+            customer.debt = request.POST.get('debt')
             customer.save()
             messages.success(request, f'معلومات په بریالیتوب سره نوي سول!')
             return redirect('get_customer', id=id)
@@ -134,13 +135,19 @@ def customer_purchase(request):
     customers = Customer.objects.all()
     return render(request, 'medicine/customer_purchase/add_customer_purchase.html', {'medicines':medicines, 'customers':customers})
 
+# only called by ajax
 def add_customer_purchase(request):
-    received_data = json.loads(request.body) 
+    received_data = json.loads(request.body)
     customer_purchase = CustomerPurchase.objects.create(customer_id=int(received_data['customer']))
     for selection in received_data['selections']:
         medicine = Medicine.objects.get(pk=int(selection['id']))
+        medicine.quantity = medicine.quantity - int(selection['quantity'])
+        medicine.save()
         cpm = CustomerPurchaseMedicine.objects.create(medicine=medicine, purchase=customer_purchase, quantity=int(selection['quantity']), unit_price=int(selection['price']))
         print('SUCCESS!')
+    customer = Customer.objects.get(pk=int(received_data['customer']))
+    customer.debt = customer.debt + int(received_data['grandTotal'])
+    customer.save()
     return JsonResponse({'message':'SUCCESS'})
 
 def edit_customer_purchase(request):
@@ -158,7 +165,21 @@ def get_customer_purchase(request, id):
         return redirect('page_404')
 
 def delete_customer_purchase(request,id):
-    pass
+    customer_purchase = CustomerPurchase.objects.get(pk=id)
+    total = 0
+    if customer_purchase:
+        for med in customer_purchase.medicines.all():
+            medicine = Medicine.objects.get(pk=med.medicine.id)
+            medicine.quantity = medicine.quantity + med.quantity
+            medicine.save()
+            total = total + (med.unit_price*med.quantity)
+        customer = Customer.objects.get(pk=customer_purchase.customer.id)
+        customer.debt = customer.debt - total
+        customer.save()
+        customer_purchase.delete()
+        return redirect('list_customer_purchase')
+    else:
+        return redirect('page_404')
 # CUSTOMER PURCHASE END ==========================================>>
 
 # CUSTOMER PURCHASE MEDICINE START ===============================>>

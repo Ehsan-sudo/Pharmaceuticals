@@ -47,13 +47,14 @@ submitButton.onclick = function(){
 };
 
 const preparePurchaseData = () => {
-    let selections = {'selections':[], 'customer':-1};
+    let selections = {'selections':[], 'customer':-1, 'grandTotal':0};
     for(let i=0;i<parent.childNodes.length;i++){
         let selectedDrugID = parent.childNodes[i].childNodes[0].childNodes[0].childNodes[0].value;
         let price = parent.childNodes[i].childNodes[1].childNodes[0].childNodes[0].value;
         let quantity = parent.childNodes[i].childNodes[2].childNodes[0].childNodes[0].value;
         selections['selections'].push({'id':selectedDrugID, 'price':price, 'quantity':quantity})
         selections['customer'] = customer.value;
+        selections['grandTotal'] = grandTotal.innerHTML;
     }
     return selections;
 }

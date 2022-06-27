@@ -17,9 +17,8 @@
 
                         <thead>
                             <tr class="pashto">
-                                <th>نمبر</th>
-                                <th>مشتري</th>
-                                <th>مجموعه مبلغ</th>
+                                <th>بیل نمبر</th>
+                                <th>رانیوونکی</th>
                                 <th>نېټه</th>
                             </tr>
                         </thead>
@@ -28,7 +27,6 @@
                                 <tr class="pashto">
                                     <td><a href="{% url 'get_customer_purchase' customer_purchase.id %}">{{ customer_purchase.id }}</a></td>
                                     <td><a href="{% url 'get_customer' customer_purchase.customer.id %}">{{ customer_purchase.customer.name }}</a></td>
-                                    <td>{{ total_amount }}</td>
                                     <td>{{ customer_purchase.date }}</td>
                                 </tr>
                             {% endfor %}
