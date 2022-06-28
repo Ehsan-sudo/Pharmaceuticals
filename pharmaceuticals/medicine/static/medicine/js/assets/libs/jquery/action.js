@@ -1,9 +1,13 @@
 submitButton = document.getElementById('submit');
+updateButton = document.getElementById('update');
 parent = document.getElementById('parent-div-for-rows');
 addRow = document.getElementById('addRow');
 removeRow = document.getElementById('removeRow');
 grandTotal = document.getElementById('grand-total');
 customer = document.getElementById('customer_purchase_customers');
+
+
+
 
 
 function getCookie(name) {
@@ -22,29 +26,30 @@ function getCookie(name) {
     return cookieValue;
 }
 const csrftoken = getCookie('csrftoken');
-submitButton.onclick = function(){
-    let selections = preparePurchaseData();
-
-    // ajax call
-    $.ajax({
-        url: url_to,
-        type: 'POST',
-        headers: {'X-CSRFToken': csrftoken},
-        contentType: 'application/json; charset=UTF-8',
-        async: false, 
-        data: JSON.stringify(selections),
-        dataType: 'json',
-        success: (response)=>{
-            alert('بیل په بریالیتوب سره ثبت سو!');
-            parent.textContent = '';
-            grandTotal.textContent = '0';
-        },
-        'error': (response)=>{
-            console.log('error response!');
-            console.log(response);
-        }
-    });
-};
+if(submitButton){
+    submitButton.onclick = function(){
+        let selections = preparePurchaseData();
+    
+        // ajax call
+        $.ajax({
+            url: url_to,
+            type: 'POST',
+            headers: {'X-CSRFToken': csrftoken},
+            contentType: 'application/json; charset=UTF-8',
+            async: false, 
+            data: JSON.stringify(selections),
+            dataType: 'json',
+            success: (response)=>{
+                alert('بیل په بریالیتوب سره ثبت سو!');
+                window.location = "//"+'127.0.0.1:8000/get-customer-purchase/'+response.customer_purchase_id;
+            },
+            'error': (response)=>{
+                console.log('error response!');
+                console.log(response);
+            }
+        });
+    };
+}
 
 const preparePurchaseData = () => {
     let selections = {'selections':[], 'customer':-1, 'grandTotal':0};
@@ -53,16 +58,15 @@ const preparePurchaseData = () => {
         let price = parent.childNodes[i].childNodes[1].childNodes[0].childNodes[0].value;
         let quantity = parent.childNodes[i].childNodes[2].childNodes[0].childNodes[0].value;
         selections['selections'].push({'id':selectedDrugID, 'price':price, 'quantity':quantity})
-        selections['customer'] = customer.value;
-        selections['grandTotal'] = grandTotal.innerHTML;
     }
+    selections['customer'] = customer.value;
+    selections['grandTotal'] = grandTotal.innerHTML;
     return selections;
 }
 
 // ----------------------------------------------
 
 // -----  Price & Quantity ONCHANG -----------
-countRows = 0;
 const priceOnChange = (e) => {
     let quantity = parseInt(e.path[3].childNodes[2].childNodes[0].childNodes[0].value);
     if (isNaN(quantity)){
@@ -94,10 +98,10 @@ const updateGrandTotalRemove = () => {
 }
 
 // ----- AddRow ONCLICK ----------
-addRow.onclick = (e) => {
+addRow.onclick = () => {
     parent.append(rowCreate());
 }
-const rowCreate = () => {
+const rowCreate = (drugIdSelection, selectedPrice, selectedQuantity) => {
     // creat base div
     let row = document.createElement('div');
     row.classList.add('row');
@@ -116,6 +120,9 @@ const rowCreate = () => {
         option = document.createElement('option');
         option.value = med;
         option.innerHTML = medicine[med].name;
+        if(med == drugIdSelection){
+            option.selected = "selected";
+        }
         drugNameFieldSubSelect.append(option);
     }
     drugNameFieldSubSelect.onclick = drugNameSelect;
@@ -136,6 +143,9 @@ const rowCreate = () => {
     priceFieldSubInput.onchange = priceOnChange;
     priceFieldSubInput.type = "number";
     priceFieldSubInput.placeholder = "بیه";
+    if(selectedPrice){
+        priceFieldSubInput.value = selectedPrice;
+    }
 
     priceFieldSub.append(priceFieldSubInput);
 
@@ -154,6 +164,9 @@ const rowCreate = () => {
     quantityFieldSubInput.type = "number";
     quantityFieldSubInput.placeholder = "تعداد";
     quantityFieldSubInput.onchange = quantityOnChange;
+    if(selectedQuantity){
+        quantityFieldSubInput.value = selectedQuantity;
+    }
 
     quantityFieldSub.append(quantityFieldSubInput);
 
@@ -167,7 +180,12 @@ const rowCreate = () => {
     totalFieldSub.classList.add('mb-3', 'position-relative', 'pashto');
 
     let totalFieldSubValue = document.createElement('label');
-    totalFieldSubValue.textContent = '0';
+    if(selectedPrice){
+        totalFieldSubValue.textContent = parseInt(selectedQuantity)*parseFloat(selectedPrice);
+    }
+    else{
+        totalFieldSubValue.textContent = '0';
+    }
     totalFieldSubValue.classList.add('mb-0', 'mt-2');
 
     totalFieldSub.append(totalFieldSubValue);
@@ -181,8 +199,6 @@ const rowCreate = () => {
     row.append(quantityField);
     row.append(totalField);
     row.append(hr);
-
-    countRows++;
     return row;
 }
 
@@ -198,4 +214,41 @@ removeRow.onclick = () =>{
 const drugNameSelect = (e) => {
     e.path[3].childNodes[1].childNodes[0].childNodes[0].value = null;
     e.path[3].childNodes[1].childNodes[0].childNodes[0].placeholder = medicine[e.target.value].price;
+}
+
+
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+//                   Updating Bill Page
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+
+// adding rows automatically
+for(const med in selected_medicine){
+    parent.append(rowCreate(drugIdSelection=med, selectedPrice=selected_medicine[med].price, selectedQuantity=selected_medicine[med].quantity));
+    updateGrandTotalAdd();
+}
+
+if(updateButton){
+    updateButton.onclick = function(){
+        let selections = preparePurchaseData();
+        // ajax call
+        $.ajax({
+            url: url_to,
+            type: 'POST',
+            headers: {'X-CSRFToken': csrftoken},
+            contentType: 'application/json; charset=UTF-8',
+            async: false, 
+            data: JSON.stringify(selections),
+            dataType: 'json',
+            success: (response)=>{
+                alert('بیل په بریالیتوب سره ایډیټ سو!');
+                console.log(response.url);
+                window.location.href = '//'+response.url;
+            },
+            'error': (response)=>{
+                console.log('error response!');
+                console.log(response);
+            }
+        });
+    };
 }

@@ -1,8 +1,8 @@
 {% extends 'medicine/home.html' %}
 {% load static %}
 
-{% block page_title %}درمل ایډيټ{% endblock page_title %}
-{% block page_name %}درمل ایډیټ{% endblock page_name %}
+{% block page_title %}بیل ایډیټ{% endblock page_title %}
+{% block page_name %}بیل ایډیټ{% endblock page_name %}
 
 {% block page_content %}
     
@@ -10,93 +10,44 @@
         <div class="col-xl-12">
             <div class="card">
                 <div class="card-body">
-                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي مخکنی ثبت سوی درمل ایډیټ کوئ.</p>
+                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي مخکنی ثبت سوی بیل ایډيټ کوئ.</p>
                     
-                    <form class="needs-validation" method='POST' enctype="multipart/form-data">
-                        {% csrf_token %}
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label pashto" for="validationTooltip01">تجارتي نوم</label>
-                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="brand_name" placeholder="اینزیت 250" required="" value="{{medicine.brand_name}}">
-                                    <div class="valid-tooltip">
-                                        Looks good!
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="col-md-6">
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label pashto" for="validationTooltip01">طبي نوم</label>
-                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="medical_name" placeholder="طبي نوم" value="{{medicine.medical_name}}">
-                                    <div class="valid-tooltip">
-                                        Looks good!
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label pashto" for="validationTooltip01">فارموله</label>
-                                    <input type="text" class="form-control pashto" id="validationTooltip01" name="formula" placeholder="ترکیبي فارموله" value="{{medicine.formula}}">
-                                    <div class="valid-tooltip">
-                                        Looks good!
-                                    </div>
-                                </div>
-                            </div>
+                    
+                    <div class="col-md-3 mb-2 pashto">
+                        <label class="form-label" for="validationTooltip01">رانیوونکی</label>
+                        <select class="form-control" id="customer_purchase_customers" dir="rtl" name="customer">                                    
+                            {% for customer in customers %}
+                                <option value="{{customer.id}}"
+                                    {% if customer.id == selected_customer.id %}
+                                        selected="selected"
+                                    {% endif %}
+                                >{{customer.name}}</option>
 
-                            <div class="col-md-6">  
-                                <div class="mb-3 position-relative pashto">
-                                    <label class="form-label" for="validationTooltip01">درمل ډول</label>
-                                    <select class="form-control" id="bill-product-name-select" dir="rtl" name="medicine_type" >                                    
-                                        {% for medicine_type in medicine_types %}
-                                            <option value="{{medicine_type.id}}">{{medicine_type.type}}</option>
-                                        {% endfor %}
-                                    </select>
-                                </div>
-                            </div>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <button class="btn btn-primary pashto" id="update">بیل ایډیټ</button>
+                    </div>
+                </div>
+            </div>
+            <!-- end card -->
+
+            <div class="card">
+                <div class="card-body">                    
+                    <div id="parent-div-for-rows"></div>
+
+                    <div class="d-flex justify-content-between">
+                        <div class="mb-3 position-relative">
+                            <label class="form-label pashto d-block" for="validationTooltip04">Add/Remove row</label>
+                            <div class="btn btn-primary pashto" id="addRow">+</div>
+                            <div class="btn btn-danger pashto" id="removeRow">-</div>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label pashto" for="validationTooltip04">اکسپایر نېټه</label>
-                                    <input class="form-control" type="date" placeholder="نېټه" id="example-date-input" name="expire_date" value="{{medicine.expire_date}}">                                    <div class="invalid-tooltip">
-                                        Please provide a valid state.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label pashto" for="validationTooltip04">رانیولو بیه</label>
-                                    <input class="form-control" type="number" placeholder="عددي قیمت" id="example-number-input" name="in_price" value="{{medicine.in_price}}">
-                                    <div class="invalid-tooltip">
-                                        Please provide a valid state.
-                                    </div>
-                                </div>
-                            </div>
+                        <div>
+                            <label class="pashto">ټول حساب: </label><label class="form-label pashto d-block" id="grand-total">0</label>
                         </div>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label pashto" for="validationTooltip04">خرڅولو بیه</label>
-                                    <input class="form-control" type="number" placeholder="عددي قیمت" id="example-number-input" name="out_price" value="{{medicine.out_price}}">
-                                    <div class="invalid-tooltip">
-                                        Please provide a valid state.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="mb-3 position-relative">
-                                    <label class="form-label pashto" for="validationTooltip04">ټوټل شمېر</label>
-                                    <input class="form-control" type="number" placeholder="0" id="example-date-input" name="quantity" value="{{medicine.quantity}}">                                    <div class="invalid-tooltip">
-                                        Please provide a valid state.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <button class="btn btn-primary pashto" type="submit">فورم لېږل</button>
-                    </form>
+                    </div>
                 </div>
             </div>
             <!-- end card -->
@@ -106,6 +57,18 @@
 {% endblock page_content %}
 
 {% block js %}
-    <script src="{% static 'medicine/js/assets/libs/parsleyjs/parsley.min.js' %}"></script>
-    <script src="{% static 'medicine/js/assets/js/pages/form-validation.init.js' %}"></script>
+<script>
+    medicine = {}
+    {% for medicine in medicines %}
+        medicine['{{medicine.id}}'] = {'name':'{{medicine.brand_name}}', 'price':'{{medicine.out_price}}'};
+    {% endfor %}
+
+    selected_medicine = {}
+    {% for selected_medicine in selected_medicines %}
+        selected_medicine['{{selected_medicine.medicine.id}}'] = {'name':'{{selected_medicine.medicine.brand_name}}', 'price':'{{selected_medicine.unit_price}}', 'quantity':'{{selected_medicine.quantity}}'};
+    {% endfor %}
+
+    url_to = '{% url "edit_customer_purchase" customer_purchase.id %}';
+</script>
+<script src="{% static 'medicine/js/assets/libs/jquery/action.js' %}"></script>
 {% endblock js %}

@@ -29,7 +29,7 @@
                                     <td>{{total}}</td>
                                     <td>{{customer_purchase.date}}</td>
                                     <td>
-                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'get_customer_purchase' customer_purchase.id %}">
+                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'edit_customer_purchase' customer_purchase.id %}">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
                                         <a class="btn btn-outline-danger btn-sm edit" title="Edit" href="{% url 'delete_customer_purchase' customer_purchase.id %}">

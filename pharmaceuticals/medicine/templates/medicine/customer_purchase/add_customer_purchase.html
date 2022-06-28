@@ -53,6 +53,7 @@
 
 {% block js %}
 <script>
+    selected_medicine = {} //this should remain unused in add bill page
     medicine = {}
     {% for medicine in medicines %}
         medicine['{{medicine.id}}'] = {'name':'{{medicine.brand_name}}', 'price':'{{medicine.out_price}}'};

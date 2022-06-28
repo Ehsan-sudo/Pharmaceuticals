@@ -1,3 +1,4 @@
+import re
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from medicine.models import Company, Customer, CustomerPurchase, Medicine, MedicineType, CustomerPurchaseMedicine
@@ -135,7 +136,7 @@ def customer_purchase(request):
     customers = Customer.objects.all()
     return render(request, 'medicine/customer_purchase/add_customer_purchase.html', {'medicines':medicines, 'customers':customers})
 
-# only called by ajax
+# only called by ajax while adding new bill
 def add_customer_purchase(request):
     received_data = json.loads(request.body)
     customer_purchase = CustomerPurchase.objects.create(customer_id=int(received_data['customer']))
@@ -148,10 +149,24 @@ def add_customer_purchase(request):
     customer = Customer.objects.get(pk=int(received_data['customer']))
     customer.debt = customer.debt + int(received_data['grandTotal'])
     customer.save()
-    return JsonResponse({'message':'SUCCESS'})
+    return JsonResponse({'customer_purchase_id':customer_purchase.id})
 
-def edit_customer_purchase(request):
-    pass
+def edit_customer_purchase(request, id):
+    requested_html = re.search(r'^text/html', request.META.get('HTTP_ACCEPT'))
+    customer_purchase = CustomerPurchase.objects.get(pk=id)
+    if not requested_html:
+        received_data = json.loads(request.body)
+        print(received_data)
+        return JsonResponse({'url':f'127.0.0.1:8000/get-customer-purchase/{customer_purchase.id}'})
+    else:
+        customers = Customer.objects.all()
+        medicines = Medicine.objects.all()
+        selected_medicines = customer_purchase.medicines.all()
+        selected_customer = customer_purchase.customer
+        if customer_purchase:
+            return render(request, 'medicine/customer_purchase/edit_customer_purchase.html', {'customer_purchase':customer_purchase, 'customers':customers, 'medicines':medicines, 'selected_medicines':selected_medicines, 'selected_customer':selected_customer})
+        else:
+            return redirect('page_404')
 
 def get_customer_purchase(request, id):
     if CustomerPurchase.objects.filter(id=id).exists():
