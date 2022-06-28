@@ -231,6 +231,7 @@ for(const med in selected_medicine){
 if(updateButton){
     updateButton.onclick = function(){
         let selections = preparePurchaseData();
+        console.log(selections);
         // ajax call
         $.ajax({
             url: url_to,
@@ -242,11 +243,10 @@ if(updateButton){
             dataType: 'json',
             success: (response)=>{
                 alert('بیل په بریالیتوب سره ایډیټ سو!');
-                console.log(response.url);
                 window.location.href = '//'+response.url;
             },
             'error': (response)=>{
-                console.log('error response!');
+                alert('Error: Check console!')
                 console.log(response);
             }
         });

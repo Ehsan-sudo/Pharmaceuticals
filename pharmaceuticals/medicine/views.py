@@ -144,7 +144,7 @@ def add_customer_purchase(request):
         medicine = Medicine.objects.get(pk=int(selection['id']))
         medicine.quantity = medicine.quantity - int(selection['quantity'])
         medicine.save()
-        cpm = CustomerPurchaseMedicine.objects.create(medicine=medicine, purchase=customer_purchase, quantity=int(selection['quantity']), unit_price=int(selection['price']))
+        cpm = CustomerPurchaseMedicine.objects.create(medicine=medicine, purchase=customer_purchase, quantity=int(selection['quantity']), unit_price=float(selection['price']))
         print('SUCCESS!')
     customer = Customer.objects.get(pk=int(received_data['customer']))
     customer.debt = customer.debt + int(received_data['grandTotal'])
@@ -156,7 +156,26 @@ def edit_customer_purchase(request, id):
     customer_purchase = CustomerPurchase.objects.get(pk=id)
     if not requested_html:
         received_data = json.loads(request.body)
-        print(received_data)
+        # undoing changes
+        total = 0
+        for med in customer_purchase.medicines.all():
+            medicine = Medicine.objects.get(pk=med.medicine.id)
+            medicine.quantity = medicine.quantity + med.quantity
+            medicine.save()
+            total = total + (med.unit_price*med.quantity)
+        customer = Customer.objects.get(pk=customer_purchase.customer.id)
+        customer.debt = customer.debt - total
+        customer.save()
+
+        # deleting previous records
+        customer_purchase.medicines.all().delete()
+        
+        # adding new records
+        for selection in received_data['selections']:
+            medicine = Medicine.objects.get(pk=int(selection['id']))
+            medicine.quantity = medicine.quantity - int(selection['quantity'])
+            medicine.save()
+            cpm = CustomerPurchaseMedicine.objects.create(medicine=medicine, purchase=customer_purchase, quantity=int(selection['quantity']), unit_price=float(selection['price']))
         return JsonResponse({'url':f'127.0.0.1:8000/get-customer-purchase/{customer_purchase.id}'})
     else:
         customers = Customer.objects.all()
