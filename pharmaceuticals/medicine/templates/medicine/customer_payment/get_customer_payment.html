@@ -1,0 +1,57 @@
+{% extends 'medicine/home.html' %}
+
+{% block page_title %} {{customer.name}} {% endblock page_title %}
+{% block page_name %} {{customer.name}} {% endblock page_name %}
+
+{% block page_content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title-desc pashto">په دې پاڼه کي تاسي د {{customer.name}} په اړه معلومات وینئ.</p>    
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr class="pashto">
+                                    <th>رانیوونکی</th>
+                                    <th>پېمنټ</th>
+                                    <th>نېټه</th>
+                                    <th>لاسوهنه</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="pashto">
+                                    <td><a href="{% url 'get_customer' customer_payment.customer.id %}">{{ customer_payment.customer.name }}</a></td>
+                                    <td>{{ customer_payment.payed_amount }}</td>
+                                    <td>{{ customer_payment.date }}</td>
+                                    <td>
+                                        <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'edit_customer_payment' customer_payment.id %}">
+                                            <i class="fas fa-pencil-alt"></i>
+                                        </a>
+                                        <a class="btn btn-outline-danger btn-sm edit" title="Edit" href="{% url 'delete_customer_payment' customer_payment.id %}">
+                                            <i class="dripicons-trash"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <h1>Recent purchases of the customer</h1>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock page_content %}
+

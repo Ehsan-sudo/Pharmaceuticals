@@ -1,0 +1,41 @@
+{% extends 'medicine/home.html' %}
+
+{% block page_title %}د پېمنټونو لیست{% endblock page_title %}
+{% block page_name %}د پېمنټونو لیست{% endblock page_name %}
+
+{% block page_content %}
+
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title-desc pashto">په لاندي جدول کي تاسي د ثبت سوي پېمنټونو لیست وینئ.</p>    
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+
+                            <thead>
+                                <tr class="pashto">
+                                    <th>رانیوونکی</th>
+                                    <th>پېمنټ</th>
+                                    <th>نېټه</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for customer_payment in customer_payments %}
+                                    <tr class="pashto">
+                                        <td><a href="{% url 'get_customer' customer_payment.customer.id %}">{{ customer_payment.customer.name }}</a></td>
+                                        <td><a href="{% url 'get_customer_payment' customer_payment.id %}">{{ customer_payment.payed_amount }}</a></td>
+                                        <td>{{ customer_payment.date }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock page_content %}
+

@@ -33,6 +33,13 @@ urlpatterns = [
     path('add-customer-purchase/', views.add_customer_purchase, name='add_customer_purchase'),
     path('delete-customer-purchase/<int:id>/', views.delete_customer_purchase, name='delete_customer_purchase'),
 
+    # customer payment routes
+    path('list-customer-payment/', views.list_customer_payment, name='list_customer_payment'),
+    path('edit-customer-payment/<int:id>/', views.edit_customer_payment, name='edit_customer_payment'),
+    path('get-customer-payment/<int:id>/', views.get_customer_payment, name='get_customer_payment'),
+    path('add-customer-payment/', views.add_customer_payment, name='add_customer_payment'),
+    path('delete-customer-payment/<int:id>/', views.delete_customer_payment, name='delete_customer_payment'),
+
     # medicine type routes
     path('list-medicine-type/', views.list_medicine_type, name='list_medicine_type'),
     path('edit-medicine-type/<int:id>/', views.edit_medicine_type, name='edit_medicine_type'),

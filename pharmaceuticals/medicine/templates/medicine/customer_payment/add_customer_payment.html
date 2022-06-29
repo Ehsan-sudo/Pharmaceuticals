@@ -1,0 +1,65 @@
+{% extends 'medicine/home.html' %}
+{% load static %}
+
+{% block page_title %}رانیوونکي شاملول{% endblock page_title %}
+{% block page_name %}رانیوونکي شاملول{% endblock page_name %}
+
+{% block page_content %}
+    
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي یو نوی پېمنټ اضافه کوئ.</p>
+                    
+                    <form class="needs-validation" method='POST'>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">  
+                                <div class="mb-3 position-relative pashto">
+                                    <label class="form-label" for="validationTooltip01">رانیوونکی</label>
+                                    <select class="form-control" id="bill-product-name-select" dir="rtl" name="customer">                                    
+                                        {% for customer in customers %}
+                                            <option value="{{customer.id}}">{{customer.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip04">نېټه</label>
+                                    <input class="form-control" type="date" id="example-date-input" name="date">                                    <div class="invalid-tooltip">
+                                        Please provide a valid state.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip04">د پېمنټ اندازه</label>
+                                    <input class="form-control" type="number" placeholder="0" id="example-number-input" name="payment">
+                                    <div class="invalid-tooltip">
+                                        Please provide a valid state.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary pashto" type="submit">فورم لېږل</button>
+                    </form>
+                </div>
+            </div>
+            <!-- end card -->
+        </div> <!-- end col -->
+    </div>
+
+{% endblock page_content %}
+
+{% block js %}
+    <script>
+        document.getElementById('example-date-input').value = new Date().toISOString().slice(0,10);
+    </script>
+    <script src="{% static 'medicine/js/assets/libs/parsleyjs/parsley.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/js/pages/form-validation.init.js' %}"></script>
+{% endblock js %}
