@@ -214,18 +214,22 @@ def edit_customer_purchase(request, id):
             total = total + (med.unit_price*med.quantity)
         customer = Customer.objects.get(pk=customer_purchase.customer.id)
         customer.debt = customer.debt - total
+        customer.save()
 
         # deleting previous records
         customer_purchase.medicines.all().delete()
         
         # adding new records
+        new_customer = Customer.objects.get(pk=received_data['customer'])
+        customer_purchase.customer = new_customer
         for selection in received_data['selections']:
             medicine = Medicine.objects.get(pk=int(selection['id']))
             medicine.quantity = medicine.quantity - int(selection['quantity'])
             medicine.save()
             cpm = CustomerPurchaseMedicine.objects.create(medicine=medicine, purchase=customer_purchase, quantity=int(selection['quantity']), unit_price=float(selection['price']))
-        customer.debt = customer.debt + int(received_data['grandTotal'])
-        customer.save()
+        new_customer.debt = customer.debt + int(received_data['grandTotal'])
+        new_customer.save()
+        customer_purchase.save()
         return JsonResponse({'url':f'127.0.0.1:8000/get-customer-purchase/{customer_purchase.id}'})
     else:
         customers = Customer.objects.all()
