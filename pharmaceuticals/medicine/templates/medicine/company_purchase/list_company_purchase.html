@@ -1,0 +1,41 @@
+{% extends 'medicine/home.html' %}
+{% load static %}
+
+{% block page_title %}د کمپنۍ څخه د خریداريو لیست{% endblock page_title %}
+{% block page_name %}د کمپنۍ څخه د خریداريو لیست{% endblock page_name %}
+
+{% block page_content %}
+
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title-desc pashto">په لاندي جدول کي تاسي د ثبت سوي بیلونو لیست وینئ.</p>    
+                
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+
+                        <thead>
+                            <tr class="pashto">
+                                <th>کمپنۍ</th>
+                                <th>خریداري ایډي</th>
+                                <th>نېټه</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for company_purchase in company_purchases %}
+                                <tr class="pashto">
+                                    <td><a href="{% url 'get_company' company_purchase.company.id %}">{{ company_purchase.company.name }}</a></td>
+                                    <td><a href="{% url 'get_company_purchase' company_purchase.id %}">{{ company_purchase.id }}</a></td>
+                                    <td>{{ company_purchase.date }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock page_content %}
+

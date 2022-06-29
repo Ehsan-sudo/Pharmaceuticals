@@ -40,13 +40,6 @@ class CompanyPurchase(models.Model):
     date = models.DateField(auto_now_add=True)
 
 
-class CompanyPurchaseMedicine(models.Model):
-    purchase = models.ForeignKey('CompanyPurchase', on_delete=models.CASCADE, related_name='medicines')
-    medicine = models.ForeignKey('Medicine', on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    unit_price = models.FloatField()
-
-
 class CustomerPayment(models.Model):
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE, related_name='payments')
     date = models.DateField(auto_now_add=True)
@@ -69,6 +62,7 @@ class Medicine(models.Model):
     in_price = models.FloatField()
     out_price = models.FloatField(null=True)
     quantity = models.IntegerField()
+    company_purchase = models.ForeignKey('CompanyPurchase', on_delete=models.CASCADE, related_name='medicines', null=False)
     image = models.ImageField(upload_to='medicine/img/', default='medicine/img/default.jpg', null=True)
 
     def __str__(self):

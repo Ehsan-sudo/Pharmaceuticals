@@ -105,6 +105,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="col-md-6">  
+                                <div class="mb-3 position-relative pashto">
+                                    <label class="form-label" for="validationTooltip01">خریداري</label>
+                                    <select class="form-control" id="bill-product-name-select" dir="rtl" name="company_purchase">                                    
+                                        {% for company_purchase in company_purchases %}
+                                            <option value="{{company_purchase.id}}">{{company_purchase.id}} -- {{company_purchase.company.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
                         </div>
                         <button class="btn btn-primary pashto" type="submit">فورم لېږل</button>
                     </form>

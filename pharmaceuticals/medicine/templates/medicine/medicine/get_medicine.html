@@ -22,6 +22,7 @@
                                     <th>اکسپایر نېټه</th>
                                     <th>رانیولو بیه</th>
                                     <th>خرڅولو بیه</th>
+                                    <th>خریداري</th>
                                     <th>ټوټل شمېر</th>
                                     <th>لاسوهنه</th>
                                 </tr>
@@ -35,6 +36,7 @@
                                     <td>{{medicine.expire_date}}</td>
                                     <td>{{medicine.in_price}}</td>
                                     <td>{{medicine.out_price}}</td>
+                                    <td>{{medicine.company_purchase.id}}--{{medicine.company_purchase.company.name}}</td>
                                     <td>{{medicine.quantity}}</td>
                                     <td>
                                         <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'edit_medicine' medicine.id %}">

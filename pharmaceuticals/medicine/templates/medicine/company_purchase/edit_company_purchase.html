@@ -1,0 +1,92 @@
+{% extends 'medicine/home.html' %}
+{% load static %}
+
+{% block page_title %}د کمپنۍ څخه خریداري ایډیټ{% endblock page_title %}
+{% block page_name %}د کمپنۍ څخه خریداري ایډیټ{% endblock page_name %}
+
+{% block page_content %}
+    
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي د کمپنۍ خریداري ایډیټ کوئ.</p>
+                    
+                    <form class="needs-validation" method='POST'>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">  
+                                <div class="mb-3 position-relative pashto">
+                                    <label class="form-label" for="validationTooltip01">کمپنۍ</label>
+                                    <select class="form-control" id="bill-product-name-select" dir="rtl" name="company">                                    
+                                        {% for company in companies %}
+                                            <option value="{{company.id}}"
+                                            {% if company.id == company_purchase.company.id %}
+                                                selected="selected"
+                                            {% endif %}
+                                            >{{company.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip04">نېټه</label>
+                                    <input class="form-control" type="date" value="{{date}}" id="example-date-input" name="date">                                    <div class="invalid-tooltip">
+                                        Please provide a valid state.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary pashto" type="submit">خریداري ایډیټ</button>
+                    </form>
+                </div>
+            </div>
+            <!-- end card -->
+
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي د {{company_purchase.id}} خریداري درمل ایډیټ کوئ.</p>
+                    
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+    
+                            <thead>
+                                <tr class="pashto">
+                                    <th>برنډ نوم</th>
+                                    <th>طبي نوم</th>
+                                    <th>قیمت</th>
+                                    <th>تعداد</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for medicine in medicines %}
+                                    <tr class="pashto">
+                                        <td>{{medicine.brand_name}}</td>
+                                        <td>{{medicine.medicinal_name}}</td>
+                                        <td>{{medicine.in_price}}</td>
+                                        <td>{{medicine.quantity }}</td>
+                                        <td>
+                                            <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'edit_medicine' medicine.id %}">
+                                                <i class="fas fa-pencil-alt"></i>
+                                            </a>
+                                            <a class="btn btn-outline-danger btn-sm edit" title="Edit" href="{% url 'delete_medicine' medicine.id %}">
+                                                <i class="dripicons-trash"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- end col -->
+    </div>
+
+{% endblock page_content %}
+
+{% block js %}
+    <script src="{% static 'medicine/js/assets/libs/parsleyjs/parsley.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/js/pages/form-validation.init.js' %}"></script>
+{% endblock js %}

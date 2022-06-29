@@ -11,6 +11,13 @@ urlpatterns = [
     path('add-company/', views.add_company, name='add_company'),
     path('delete-company/<int:id>/', views.delete_company, name='delete_company'),
 
+    # company purchase routes
+    path('list-company-purchase/', views.list_company_purchase, name='list_company_purchase'),
+    path('edit-company-purchase/<int:id>/', views.edit_company_purchase, name='edit_company_purchase'),
+    path('get-company-purchase/<int:id>/', views.get_company_purchase, name='get_company_purchase'),
+    path('add-company-purchase/', views.add_company_purchase, name='add_company_purchase'),
+    path('delete-company-purchase/<int:id>/', views.delete_company_purchase, name='delete_company_purchase'),
+    
     # customer routes
     path('list-customer/', views.list_customer, name='list_customer'),
     path('edit-customer/<int:id>/', views.edit_customer, name='edit_customer'),

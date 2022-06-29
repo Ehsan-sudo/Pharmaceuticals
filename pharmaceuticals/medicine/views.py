@@ -1,7 +1,7 @@
 import re
 from django.shortcuts import render, redirect
 from django.contrib import messages
-from medicine.models import Company, Customer, CustomerPurchase, Medicine, MedicineType, CustomerPurchaseMedicine
+from medicine.models import *
 from django.core.files.storage import FileSystemStorage
 from PIL import Image
 from django.http import JsonResponse
@@ -70,6 +70,55 @@ def delete_company(request, id):
         return redirect('page_404')
 # COMAPNY VIEWS  END =============================================>>
 
+# COMPANY PURCHASE VIEWS START
+def list_company_purchase(request):
+    company_purchases = CompanyPurchase.objects.all()
+    return render(request, 'medicine/company_purchase/list_company_purchase.html', {'company_purchases':company_purchases})
+
+def add_company_purchase(request):
+    if request.POST:
+        # data validation missing   
+        company = Company.objects.get(pk=request.POST.get('company'))
+        date = request.POST.get('date')
+        CompanyPurchase.objects.create(company=company, date=date)  
+        messages.success(request, 'معلومات په بریالیتوب سره اضافه سول!')
+        return redirect('list_company_purchase')
+    companies = Company.objects.all()
+    return render(request, 'medicine/company_purchase/add_company_purchase.html', {'companies':companies})
+
+def edit_company_purchase(request, id):
+    if request.POST:
+        # data validation missing
+        company.name = request.POST.get('name')
+        company.email = request.POST.get('email')
+        company.phone = request.POST.get('phone')
+        company.location = request.POST.get('location')
+        company.save()
+        messages.success(request, f'معلومات په بریالیتوب سره نوي سول!')
+        return redirect('get_company', id=id) 
+  
+    company_purchase = CompanyPurchase.objects.get(pk=id)
+    medicines = company_purchase.medicines.all()
+    companies = Company.objects.all()
+    date = str(company_purchase.date)
+    return render(request, 'medicine/company_purchase/edit_company_purchase.html', {'company_purchase':company_purchase, 'companies':companies, 'date':date, 'medicines':medicines})
+
+def get_company_purchase(request, id):
+    company_purchase = CompanyPurchase.objects.get(pk=id)
+    if company_purchase:
+        return render(request, 'medicine/company_purchase/get_company_purchase.html', {'company_purchase':company_purchase})
+    else:
+        return redirect('page_404')
+
+def delete_company_purchase(request, id):
+    if Company.objects.filter(id=id).exists():
+        Company.objects.get(pk=id).delete()
+        messages.warning(request, 'معلومات په بریالیتوب سره ډیلیټ سول!')
+        return redirect('list_company')
+    else:
+        return redirect('page_404')
+# COMPANY PURCHASE VIEWS END
+
 
 # CUSTOMER VIEWS START ===========================================>>
 def list_customer(request):
@@ -136,7 +185,7 @@ def customer_purchase(request):
     customers = Customer.objects.all()
     return render(request, 'medicine/customer_purchase/add_customer_purchase.html', {'medicines':medicines, 'customers':customers})
 
-# only called by ajax while adding new bill
+            # only called by ajax while adding new bill
 def add_customer_purchase(request):
     received_data = json.loads(request.body)
     customer_purchase = CustomerPurchase.objects.create(customer_id=int(received_data['customer']))
@@ -165,7 +214,6 @@ def edit_customer_purchase(request, id):
             total = total + (med.unit_price*med.quantity)
         customer = Customer.objects.get(pk=customer_purchase.customer.id)
         customer.debt = customer.debt - total
-        customer.save()
 
         # deleting previous records
         customer_purchase.medicines.all().delete()
@@ -176,6 +224,8 @@ def edit_customer_purchase(request, id):
             medicine.quantity = medicine.quantity - int(selection['quantity'])
             medicine.save()
             cpm = CustomerPurchaseMedicine.objects.create(medicine=medicine, purchase=customer_purchase, quantity=int(selection['quantity']), unit_price=float(selection['price']))
+        customer.debt = customer.debt + int(received_data['grandTotal'])
+        customer.save()
         return JsonResponse({'url':f'127.0.0.1:8000/get-customer-purchase/{customer_purchase.id}'})
     else:
         customers = Customer.objects.all()
@@ -289,13 +339,17 @@ def add_medicine(request):
         in_price = request.POST.get('in_price')
         out_price = request.POST.get('out_price')
         quantity = request.POST.get('quantity')
+        company_purchase = CompanyPurchase.objects.get(pk=request.POST.get('company_purchase'))
         # validation missing: check if the uploaded file is an image
-        upload = request.FILES['medicine_img']
-        fss = FileSystemStorage()
-        file = fss.save(upload.name, upload)
-        image = fss.url(file)
+        if request.FILES.get('medicine_img'):
+            upload = request.FILES['medicine_img']
+            fss = FileSystemStorage()
+            file = fss.save(upload.name, upload)
+            image = fss.url(file)
+        else:
+            image = '/media/default.jpg'
 
-        Medicine.objects.create(
+        medicine = Medicine.objects.create(
             brand_name=brand_name,
             medical_name=medical_name,
             formula=formula,
@@ -304,17 +358,19 @@ def add_medicine(request):
             in_price=in_price,
             out_price=out_price,
             quantity=quantity,
+            company_purchase=company_purchase,
             image=image
         )
         messages.success(request, 'معلومات په بریالیتوب سره اضافه سول!')
         return redirect('list_medicine')
     else:
-        return render(request, 'medicine/medicine/add_medicine.html', {'medicine_types':MedicineType.objects.all()})
+        company_purchases = CompanyPurchase.objects.all()
+        medicine_types = MedicineType.objects.all()
+        return render(request, 'medicine/medicine/add_medicine.html', {'medicine_types':medicine_types, 'company_purchases':company_purchases})
 
 def edit_medicine(request, id):
-    if Medicine.objects.filter(id=id).exists():
-        medicine = Medicine.objects.get(pk=id)
-
+    medicine = Medicine.objects.get(pk=id)
+    if medicine:
         if request.POST:
             # data validation missing
             medicine.brand_name = request.POST.get('brand_name')
@@ -328,12 +384,15 @@ def edit_medicine(request, id):
             medicine.in_price = request.POST.get('in_price')
             medicine.out_price = request.POST.get('out_price')
             medicine.quantity = request.POST.get('quantity')
-            
+            company_purchase = CompanyPurchase.objects.get(pk=request.POST.get('company_purchase'))
+            medicine.company_purchase = company_purchase
             medicine.save()
             messages.success(request, f'معلومات په بریالیتوب سره نوي سول!')
             return redirect('get_medicine', id=id)
         else:
-            return render(request, 'medicine/medicine/edit_medicine.html', {'medicine':medicine, 'medicine_types':MedicineType.objects.all()})
+            company_purchases = CompanyPurchase.objects.all()
+            medicine_types = MedicineType.objects.all()
+            return render(request, 'medicine/medicine/edit_medicine.html', {'medicine':medicine, 'company_purchases':company_purchases, 'medicine_types':medicine_types})
     else:
         return redirect('page_404')
 

@@ -1,0 +1,50 @@
+{% extends 'medicine/home.html' %}
+{% load static %}
+
+{% block page_title %}د کمپنۍ څخه خریداري{% endblock page_title %}
+{% block page_name %}د کمپنۍ څخه خریداري{% endblock page_name %}
+
+{% block page_content %}
+    
+    <div class="row">
+        <div class="col-xl-12">
+            <div class="card">
+                <div class="card-body">
+                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي د کمپنۍ خریداري ثبت کوئ.</p>
+                    
+                    <form class="needs-validation" method='POST'>
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6">  
+                                <div class="mb-3 position-relative pashto">
+                                    <label class="form-label" for="validationTooltip01">کمپنۍ</label>
+                                    <select class="form-control" id="bill-product-name-select" dir="rtl" name="company">                                    
+                                        {% for company in companies %}
+                                            <option value="{{company.id}}">{{company.name}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3 position-relative">
+                                    <label class="form-label pashto" for="validationTooltip04">نېټه</label>
+                                    <input class="form-control" type="date" value="2019-08-19" id="example-date-input" name="date">                                    <div class="invalid-tooltip">
+                                        Please provide a valid state.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary pashto" type="submit">فورم لېږل</button>
+                    </form>
+                </div>
+            </div>
+            <!-- end card -->
+        </div> <!-- end col -->
+    </div>
+
+{% endblock page_content %}
+
+{% block js %}
+    <script src="{% static 'medicine/js/assets/libs/parsleyjs/parsley.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/js/pages/form-validation.init.js' %}"></script>
+{% endblock js %}
