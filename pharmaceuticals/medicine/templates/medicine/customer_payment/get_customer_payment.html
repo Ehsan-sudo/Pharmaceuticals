@@ -24,7 +24,7 @@
                             <tbody>
                                 <tr class="pashto">
                                     <td><a href="{% url 'get_customer' customer_payment.customer.id %}">{{ customer_payment.customer.name }}</a></td>
-                                    <td>{{ customer_payment.payed_amount }}</td>
+                                    <td>{{ customer_payment.paid_amount }}</td>
                                     <td>{{ customer_payment.date }}</td>
                                     <td>
                                         <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'edit_customer_payment' customer_payment.id %}">

@@ -25,7 +25,7 @@
                                 {% for customer_payment in customer_payments %}
                                     <tr class="pashto">
                                         <td><a href="{% url 'get_customer' customer_payment.customer.id %}">{{ customer_payment.customer.name }}</a></td>
-                                        <td><a href="{% url 'get_customer_payment' customer_payment.id %}">{{ customer_payment.payed_amount }}</a></td>
+                                        <td><a href="{% url 'get_customer_payment' customer_payment.id %}">{{ customer_payment.paid_amount }}</a></td>
                                         <td>{{ customer_payment.date }}</td>
                                     </tr>
                                 {% endfor %}

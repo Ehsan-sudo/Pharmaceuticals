@@ -43,7 +43,7 @@ class CompanyPurchase(models.Model):
 class CustomerPayment(models.Model):
     customer = models.ForeignKey('Customer', on_delete=models.CASCADE, related_name='payments')
     date = models.DateField(auto_now_add=True)
-    payed_amount = models.FloatField()
+    paid_amount = models.FloatField()
 
 
 class MedicineType(models.Model):

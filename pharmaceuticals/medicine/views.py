@@ -277,7 +277,7 @@ def add_customer_payment(request):
         customer = Customer.objects.get(pk=request.POST.get('customer'))
         date = request.POST.get('date')
         payment = request.POST.get('payment')
-        CustomerPayment.objects.create(customer=customer, date=date, payed_amount=payment)
+        CustomerPayment.objects.create(customer=customer, date=date, paid_amount=payment)
         customer.debt = customer.debt - float(payment)
         # check if the debt is ZERO, then adding payment is an error
         customer.save()
@@ -294,12 +294,12 @@ def edit_customer_payment(request, id):
             # data validation missing
             # undoing changes
             customer = Customer.objects.get(pk=customer_payment.customer.id)
-            customer.debt = customer.debt + customer_payment.payed_amount
+            customer.debt = customer.debt + customer_payment.paid_amount
             customer.save()
             # editing the record
             new_customer = Customer.objects.get(pk=request.POST.get('customer'))
             customer_payment.customer = new_customer
-            customer_payment.payed_amount = request.POST.get('payment')
+            customer_payment.paid_amount = request.POST.get('payment')
             new_customer.debt = new_customer.debt - float(request.POST.get('payment'))
             customer_payment.date = request.POST.get('date')
             new_customer.save()
@@ -325,7 +325,7 @@ def delete_customer_payment(request, id):
     customer_payment = CustomerPayment.objects.filter(id=id).first()
     if customer_payment:
         customer = customer_payment.customer
-        customer.debt = customer.debt + customer_payment.payed_amount
+        customer.debt = customer.debt + customer_payment.paid_amount
         customer.save()
         customer_payment.delete() 
         messages.warning(request, 'معلومات په بریالیتوب سره ډیلیټ سول!')
