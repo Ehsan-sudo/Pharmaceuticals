@@ -1,6 +1,7 @@
 from medicine.models import *
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 def home(request):
     return render(request, 'medicine/home.html')
@@ -8,7 +9,11 @@ def home(request):
 # COMPANY VIEWS START ============================================>>
 def list_company(request):
     companies = Company.objects.all()
-    return render(request, 'medicine/company/list_company.html', {'companies':companies})
+    paginator = Paginator(companies, 5) # Show 25 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'medicine/company/list_company.html', {'page_obj':page_obj})
 
 def add_company(request):
     if request.POST:
