@@ -10,6 +10,7 @@ urlpatterns = [
     path('get-company/<int:id>/', views.get_company, name='get_company'),
     path('add-company/', views.add_company, name='add_company'),
     path('delete-company/<int:id>/', views.delete_company, name='delete_company'),
+    path('search-company/', views.search_company, name='search_company'),
 
     # company purchase routes
     path('list-company-purchase/', views.list_company_purchase, name='list_company_purchase'),

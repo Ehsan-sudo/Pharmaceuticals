@@ -10,6 +10,15 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
+                    <div class="col-lg-3 col-md-6 col-sm-12">
+                        <form class="app-search" method="POST" action="{% url 'search_company'  %}">
+                        {% csrf_token %}
+                            <div class="position-relative d-flex pashto">
+                                <input name="search_value" type="text" class="form-control" placeholder="لټون...">
+                                <button type="submit" class="btn btn-primary">لټون</button>
+                            </div>
+                        </form>
+                    </div>
                     <p class="card-title-desc pashto">په لاندي جدول کي تاسي د ثبت سوي کمپنیو لیست وینئ.</p>    
                     
                     <div class="table-responsive">

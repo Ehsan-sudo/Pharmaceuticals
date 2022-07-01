@@ -2,6 +2,9 @@ from medicine.models import *
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
+from django.http import JsonResponse
+import json
+import re
 
 def home(request):
     return render(request, 'medicine/home.html')
@@ -59,4 +62,19 @@ def delete_company(request, id):
         return redirect('list_company')
     else:
         return redirect('page_404')
+
+def search_company(request):
+    # validations
+    search_value = request.POST.get('search_value')
+    companies = Company.objects.filter(name__icontains=search_value).all()
+    paginator = Paginator(companies, 5) # Show 25 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    if companies:
+        messages.success(request, 'معلومات پیدا سول!')
+    else:
+        messages.warning(request, 'غوښتل سوي معلومات شتون نه لري!')
+    return render(request, 'medicine/company/list_company.html', {'page_obj':page_obj})
+
 # COMAPNY VIEWS  END =============================================>>
