@@ -58,7 +58,7 @@
                             </li>
                         {% else %}
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&search_value={{ search_value }}" aria-label="Previous">
                                     <i class="mdi mdi-chevron-right"></i>
                                     شاته
                                 </a>
@@ -69,11 +69,11 @@
                             <li class="page-item disabled">
                                 <a class="page-link" href="#" aria-label="Next">
                                 مخته
-                                <i class="mdi mdi-chevron-left"></i>                                </a>
+                                <i class="mdi mdi-chevron-left"></i></a>
                             </li>
                         {% else %}
                             <li class="page-item">
-                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Previous">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}&search_value={{ search_value }}" aria-label="Previous">
                                     مخته
                                     <i class="mdi mdi-chevron-left"></i>
                                 </a>

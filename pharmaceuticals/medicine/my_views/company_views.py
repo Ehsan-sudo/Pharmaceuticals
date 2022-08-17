@@ -65,16 +65,25 @@ def delete_company(request, id):
 
 def search_company(request):
     # validations
-    search_value = request.POST.get('search_value')
-    companies = Company.objects.filter(name__icontains=search_value).all()
-    paginator = Paginator(companies, 5) # Show 25 contacts per page.
-
-    page_number = request.GET.get('page')
-    page_obj = paginator.get_page(page_number)
-    if companies:
-        messages.success(request, 'معلومات پیدا سول!')
+    search_value_post = request.POST.get('search_value')
+    search_value_get = request.GET.get('search_value')
+    search_value = None
+    if search_value_post:
+        search_value = search_value_post
     else:
-        messages.warning(request, 'غوښتل سوي معلومات شتون نه لري!')
-    return render(request, 'medicine/company/list_company.html', {'page_obj':page_obj})
+        search_value = search_value_get
+    if search_value:
+        companies = Company.objects.filter(name__icontains=search_value).all()
+        paginator = Paginator(companies, 5) # Show 25 contacts per page.
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        if companies:
+            messages.success(request, 'معلومات پیدا سول!')
+        else:
+            messages.warning(request, 'غوښتل سوي معلومات شتون نه لري!')
+        return render(request, 'medicine/company/list_company.html', {'page_obj':page_obj, 'search_value':search_value})
+    else:
+        return redirect('page_404')
 
 # COMAPNY VIEWS  END =============================================>>
