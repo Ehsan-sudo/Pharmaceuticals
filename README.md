@@ -6,9 +6,9 @@ A python django web app for pharmaceutical business in Afghanistan
 `sudo apt install python3`  
 `sudo apt install python3-pip`  
 `sudo pip install django`  
-`sudo apt install mysql-server`  
-`sudo apt install mysqlclient`  
-`sudo apt install libmysqlclient-dev`
+`sudo apt install mysql-server` 
+`sudo apt install libmysqlclient-dev`  
+`sudo pip install mysqlclient`  
 
 
 # Configurations:
