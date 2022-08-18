@@ -26,6 +26,7 @@ urlpatterns = [
     path('get-customer/<int:id>/', views.get_customer, name='get_customer'),
     path('add-customer/', views.add_customer, name='add_customer'),
     path('delete-customer/<int:id>/', views.delete_customer, name='delete_customer'),
+    path('search-customer/', views.search_customer, name='search_customer'), 
 
     # customer purchase routes
     path('list-customer-purchase/', views.list_customer_purchase, name='list_customer_purchase'),

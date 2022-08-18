@@ -14,7 +14,7 @@
                         <form class="app-search" method="POST" action="{% url 'search_company'  %}">
                         {% csrf_token %}
                             <div class="position-relative d-flex pashto">
-                                <input name="search_value" type="text" class="form-control" placeholder="لټون...">
+                                <input name="search_value" type="text" class="form-control" placeholder="لټون..." required="required">
                                 <button type="submit" class="btn btn-primary">لټون</button>
                             </div>
                         </form>

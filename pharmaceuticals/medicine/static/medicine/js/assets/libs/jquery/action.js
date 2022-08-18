@@ -29,25 +29,29 @@ const csrftoken = getCookie('csrftoken');
 if(submitButton){
     submitButton.onclick = function(){
         let selections = preparePurchaseData();
-    
-        // ajax call
-        $.ajax({
-            url: url_to,
-            type: 'POST',
-            headers: {'X-CSRFToken': csrftoken},
-            contentType: 'application/json; charset=UTF-8',
-            async: false, 
-            data: JSON.stringify(selections),
-            dataType: 'json',
-            success: (response)=>{
-                alert('بیل په بریالیتوب سره ثبت سو!');
-                window.location = "//"+'127.0.0.1:8000/get-customer-purchase/'+response.customer_purchase_id;
-            },
-            'error': (response)=>{
-                console.log('error response!');
-                console.log(response);
-            }
-        });
+        if(selections.selections.length == 0){
+            alert('تاسي باید درمل انتخاب کړئ!');
+        }
+        else{
+            // ajax call
+            $.ajax({
+                url: url_to,
+                type: 'POST',
+                headers: {'X-CSRFToken': csrftoken},
+                contentType: 'application/json; charset=UTF-8',
+                async: false, 
+                data: JSON.stringify(selections),
+                dataType: 'json',
+                success: (response)=>{
+                    alert('بیل په بریالیتوب سره ثبت سو!');
+                    window.location = "//"+'127.0.0.1:8000/get-customer-purchase/'+response.customer_purchase_id;
+                },
+                'error': (response)=>{
+                    console.log('error response!');
+                    console.log(response);
+                }
+            });
+        }
     };
 }
 

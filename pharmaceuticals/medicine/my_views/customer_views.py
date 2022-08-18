@@ -1,11 +1,17 @@
 from medicine.models import *
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.core.paginator import Paginator
+
 
 # CUSTOMER VIEWS START ===========================================>>
 def list_customer(request):
     customers = Customer.objects.all()
-    return render(request, 'medicine/customer/list_customer.html', {'customers':customers})
+    paginator = Paginator(customers, 5) # Show 25 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'medicine/customer/list_customer.html', {'page_obj':page_obj})
 
 def add_customer(request):
     if request.POST:
@@ -53,6 +59,28 @@ def delete_customer(request, id):
         Customer.objects.get(pk=id).delete()
         messages.warning(request, 'معلومات په بریالیتوب سره ډیلیټ سول!')
         return redirect('list_customer')
+    else:
+        return redirect('page_404')
+
+def search_customer(request):
+    # validations
+    search_value_post = request.POST.get('search_value')
+    search_value_get = request.GET.get('search_value')
+    search_value = None
+    if search_value_post:
+        search_value = search_value_post
+    else:
+        search_value = search_value_get
+    if search_value:
+        customers = Customer.objects.filter(name__icontains=search_value).all()
+        paginator = Paginator(customers, 5) # Show 25 contacts per page.
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        if customers:
+            messages.success(request, f'د {search_value} لپاره معلومات پیدا سول!')
+        else:
+            messages.warning(request, 'غوښتل سوي معلومات شتون نه لري!')
+        return render(request, 'medicine/customer/list_customer.html', {'page_obj':page_obj, 'search_value':search_value})
     else:
         return redirect('page_404')
 # CUSTOMER VIEWS END =============================================>>
