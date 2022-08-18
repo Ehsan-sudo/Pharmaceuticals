@@ -2,14 +2,19 @@ from medicine.models import *
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.http import JsonResponse
+from django.core.paginator import Paginator
 import json
 import re
 
 
 # CUSTOMER PURCHASE START ========================================>>
 def list_customer_purchase(request):
-    customer_purchases = CustomerPurchase.objects.all()
-    return render(request, 'medicine/customer_purchase/list_customer_purchase.html', {'customer_purchases':customer_purchases})
+    companies = CustomerPurchase.objects.all()
+    paginator = Paginator(companies, 10) # Show 25 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'medicine/customer_purchase/list_customer_purchase.html', {'page_obj':page_obj})
 
 def customer_purchase(request):
     medicines = Medicine.objects.all()
@@ -99,4 +104,32 @@ def delete_customer_purchase(request,id):
         return redirect('list_customer_purchase')
     else:
         return redirect('page_404')
+
+def search_customer_purchase(request):
+    # validations
+    search_value_post = request.POST.get('search_value')
+    search_value_get = request.GET.get('search_value')
+    search_value = None
+    if search_value_post:
+        search_value = search_value_post
+    else:
+        search_value = search_value_get
+    if search_value:
+        customers = Customer.objects.filter(name__icontains=search_value).all()
+        customer_purchase = []
+        for customer in customers:
+            for p in customer.purchases.all():
+                customer_purchase.append(p)
+        paginator = Paginator(customer_purchase, 10) # Show 25 contacts per page.
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        if customers:
+            messages.success(request, f'د {search_value} په اړه معلومات پیدا سول!')
+        else:
+            messages.warning(request, 'غوښتل سوي معلومات شتون نه لري!')
+        return render(request, 'medicine/customer_purchase/list_customer_purchase.html', {'page_obj':page_obj, 'search_value':search_value})
+    else:
+        return redirect('page_404')
+
 # CUSTOMER PURCHASE END ==========================================>>

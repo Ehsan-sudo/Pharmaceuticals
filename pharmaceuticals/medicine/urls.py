@@ -35,6 +35,7 @@ urlpatterns = [
     path('customer-purchase/', views.customer_purchase, name='customer_purchase'),
     path('add-customer-purchase/', views.add_customer_purchase, name='add_customer_purchase'),
     path('delete-customer-purchase/<int:id>/', views.delete_customer_purchase, name='delete_customer_purchase'),
+    path('search-customer-purchase/', views.search_customer_purchase, name='search_customer_purchase'), 
 
     # customer payment routes
     path('list-customer-payment/', views.list_customer_payment, name='list_customer_payment'),
