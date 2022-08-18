@@ -43,6 +43,7 @@ urlpatterns = [
     path('get-customer-payment/<int:id>/', views.get_customer_payment, name='get_customer_payment'),
     path('add-customer-payment/', views.add_customer_payment, name='add_customer_payment'),
     path('delete-customer-payment/<int:id>/', views.delete_customer_payment, name='delete_customer_payment'),
+    path('search-customer-payment/', views.search_customer_payment, name='search_customer_payment'), 
 
     # medicine type routes
     path('list-medicine-type/', views.list_medicine_type, name='list_medicine_type'),

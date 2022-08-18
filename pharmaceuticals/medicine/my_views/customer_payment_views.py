@@ -1,12 +1,17 @@
 from medicine.models import *
 from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.core.paginator import Paginator
 
 
 # CUSTOMER PAYMENT START ===============================>>
 def list_customer_payment(request):
-    customer_payments = CustomerPayment.objects.all()
-    return render(request, 'medicine/customer_payment/list_customer_payment.html', {'customer_payments':customer_payments})
+    payments = CustomerPayment.objects.all()
+    paginator = Paginator(payments, 10) # Show 25 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'medicine/customer_payment/list_customer_payment.html', {'page_obj':page_obj})
 
 def add_customer_payment(request):
     if request.POST:
@@ -69,4 +74,32 @@ def delete_customer_payment(request, id):
         return redirect('list_customer_payment')
     else:
         return redirect('page_404')
+
+def search_customer_payment(request):
+    # validations
+    search_value_post = request.POST.get('search_value')
+    search_value_get = request.GET.get('search_value')
+    search_value = None
+    if search_value_post:
+        search_value = search_value_post
+    else:
+        search_value = search_value_get
+    if search_value:
+        customers = Customer.objects.filter(name__icontains=search_value).all()
+        customer_payments = []
+        for customer in customers:
+            for p in customer.payments.all():
+                customer_payments.append(p)
+        paginator = Paginator(customer_payments, 10) # Show 25 contacts per page.
+
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        if customers:
+            messages.success(request, f'د {search_value} په اړه معلومات پیدا سول!')
+        else:
+            messages.warning(request, 'غوښتل سوي معلومات شتون نه لري!')
+        return render(request, 'medicine/customer_payment/list_customer_payment.html', {'page_obj':page_obj, 'search_value':search_value})
+    else:
+        return redirect('page_404')
+
 # CUSTOMER PAYMENT END =================================>>
