@@ -37,7 +37,7 @@ class CustomerPurchaseMedicine(models.Model):
 
 class CompanyPurchase(models.Model):
     company = models.ForeignKey('Company', on_delete=models.CASCADE, related_name='purchases')
-    date = models.DateField(auto_now_add=True)
+    date = models.DateField()
 
 
 class CustomerPayment(models.Model):

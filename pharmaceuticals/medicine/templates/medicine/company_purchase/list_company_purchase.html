@@ -10,7 +10,17 @@
     <div class="col-lg-12">
         <div class="card">
             <div class="card-body">
-                <p class="card-title-desc pashto">په لاندي جدول کي تاسي د ثبت سوي بیلونو لیست وینئ.</p>    
+                <div class="col-lg-3 col-md-6 col-sm-12">
+                    <form class="app-search" method="POST" action="{% url 'search_company_purchase'  %}">
+                    {% csrf_token %}
+                        <div class="position-relative d-flex pashto">
+                            <input name="search_value" type="text" class="form-control" placeholder="د خریداري کال...">
+                            <button type="submit" class="btn btn-primary">لټون</button>
+                        </div>
+                    </form>
+                </div>
+
+                <p class="card-title-desc pashto">په لاندي جدول کي تاسي د ثبت سوي بیلونو خریداری لیست وینئ.</p>    
                 
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
@@ -23,7 +33,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for company_purchase in company_purchases %}
+                            {% for company_purchase in page_obj %}
                                 <tr class="pashto">
                                     <td><a href="{% url 'get_company' company_purchase.company.id %}">{{ company_purchase.company.name }}</a></td>
                                     <td><a href="{% url 'get_company_purchase' company_purchase.id %}">{{ company_purchase.id }}</a></td>
@@ -33,6 +43,42 @@
                         </tbody>
                     </table>
                 </div>
+            </div>
+
+            <!-- paginator -->
+            <div class="d-inline-block mb-2 pashto">
+                <ul class="pagination pagination-rounded mb-0">
+                    {% if not page_obj.has_previous %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Previous">
+                                <i class="mdi mdi-chevron-right"></i>
+                                شاته
+                            </a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.previous_page_number }}&search_value={{ search_value }}" aria-label="Previous">
+                                <i class="mdi mdi-chevron-right"></i>
+                                شاته
+                            </a>
+                        </li>
+                    {% endif %}
+                        <div class="m-2"></div>
+                    {% if not page_obj.has_next %}
+                        <li class="page-item disabled">
+                            <a class="page-link" href="#" aria-label="Next">
+                            مخته
+                            <i class="mdi mdi-chevron-left"></i></a>
+                        </li>
+                    {% else %}
+                        <li class="page-item">
+                            <a class="page-link" href="?page={{ page_obj.next_page_number }}&search_value={{ search_value }}" aria-label="Previous">
+                                مخته
+                                <i class="mdi mdi-chevron-left"></i>
+                            </a>
+                        </li>
+                    {% endif %}
+                </ul>
             </div>
         </div>
     </div>

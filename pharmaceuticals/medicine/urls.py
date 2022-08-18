@@ -18,6 +18,7 @@ urlpatterns = [
     path('get-company-purchase/<int:id>/', views.get_company_purchase, name='get_company_purchase'),
     path('add-company-purchase/', views.add_company_purchase, name='add_company_purchase'),
     path('delete-company-purchase/<int:id>/', views.delete_company_purchase, name='delete_company_purchase'),
+    path('search-company-purchase/', views.search_company_purchase, name='search_company_purchase'),
     
     # customer routes
     path('list-customer/', views.list_customer, name='list_customer'),

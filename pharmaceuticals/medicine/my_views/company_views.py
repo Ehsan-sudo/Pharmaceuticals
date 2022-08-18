@@ -2,9 +2,6 @@ from medicine.models import *
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.paginator import Paginator
-from django.http import JsonResponse
-import json
-import re
 
 def home(request):
     return render(request, 'medicine/home.html')
@@ -31,9 +28,8 @@ def add_company(request):
     return render(request, 'medicine/company/add_company.html')
 
 def edit_company(request, id):
-    if Company.objects.filter(id=id).exists():
-        company = Company.objects.get(pk=id)
-
+    company = Company.objects.get(pk=id)
+    if company:
         if request.POST:
             # data validation missing
             company.name = request.POST.get('name')
