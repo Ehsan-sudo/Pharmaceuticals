@@ -55,7 +55,7 @@ urlpatterns = [
     path('get-medicine/<int:id>/', views.get_medicine, name='get_medicine'),
     path('add-medicine/', views.add_medicine, name='add_medicine'),
     path('delete-medicine/<int:id>/', views.delete_medicine, name='delete_medicine'),
-     
+    path('search-medicine/', views.search_medicine, name='search_medicine'), 
 
     # utility routes
     path('not-found-404/', views.page_404, name='page_404'),

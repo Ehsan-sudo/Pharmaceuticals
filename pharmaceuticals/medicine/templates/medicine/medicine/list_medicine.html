@@ -6,8 +6,19 @@
 
 {% block page_content %}
 
+<!-- search -->
+<div class="col-lg-3 col-md-6 col-sm-12">
+    <form class="app-search" method="POST" action="{% url 'search_medicine'  %}">
+    {% csrf_token %}
+        <div class="position-relative d-flex pashto">
+            <input name="search_value" type="text" class="form-control" placeholder="د درمل نوم...">
+            <button type="submit" class="btn btn-primary">لټون</button>
+        </div>
+    </form>
+</div>
+
 <div class="row">
-    {% for medicine in medicines %}
+    {% for medicine in page_obj %}
         <div class="col-md-6 col-xl-3">
             <div class="card medicine-card">
                 <a href="{% url 'get_medicine' medicine.id %}" class="card-link">
@@ -23,6 +34,42 @@
             </div>
         </div>
     {% endfor %}
+</div>
+
+<!-- paginator -->
+<div class="d-inline-block mb-2 pashto">
+    <ul class="pagination pagination-rounded mb-0">
+        {% if not page_obj.has_previous %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Previous">
+                    <i class="mdi mdi-chevron-right"></i>
+                    شاته
+                </a>
+            </li>
+        {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}&search_value={{ search_value }}" aria-label="Previous">
+                    <i class="mdi mdi-chevron-right"></i>
+                    شاته
+                </a>
+            </li>
+        {% endif %}
+            <div class="m-2"></div>
+        {% if not page_obj.has_next %}
+            <li class="page-item disabled">
+                <a class="page-link" href="#" aria-label="Next">
+                مخته
+                <i class="mdi mdi-chevron-left"></i></a>
+            </li>
+        {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}&search_value={{ search_value }}" aria-label="Previous">
+                    مخته
+                    <i class="mdi mdi-chevron-left"></i>
+                </a>
+            </li>
+        {% endif %}
+    </ul>
 </div>
 
 {% endblock page_content %}

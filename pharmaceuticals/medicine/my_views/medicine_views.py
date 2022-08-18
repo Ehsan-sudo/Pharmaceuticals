@@ -2,11 +2,19 @@ from medicine.models import *
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.core.files.storage import FileSystemStorage
+from django.core.paginator import Paginator
+from django.db.models import Q
+
 
 # MEDICINE START =================================================>>
 def list_medicine(request):
     medicines = Medicine.objects.all()
-    return render(request, 'medicine/medicine/list_medicine.html', {'medicines':medicines})
+    paginator = Paginator(medicines, 5) # Show 25 contacts per page.
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'medicine/medicine/list_medicine.html', {'page_obj':page_obj})
+
 
 def add_medicine(request):
     if request.POST:
@@ -89,6 +97,29 @@ def delete_medicine(request, id):
         Medicine.objects.get(pk=id).delete()
         messages.warning(request, 'معلومات په بریالیتوب سره ډیلیټ سول!')
         return redirect('list_medicine')
+    else:
+        return redirect('page_404')
+
+def search_medicine(request):
+    # validations
+    search_value_post = request.POST.get('search_value')
+    search_value_get = request.GET.get('search_value')
+    search_value = None
+    if search_value_post:
+        search_value = search_value_post
+    else:
+        search_value = search_value_get
+    if search_value:
+        medicines = Medicine.objects.filter(Q(brand_name__icontains=search_value) | Q(medical_name__icontains=search_value)).all()
+        
+        paginator = Paginator(medicines, 5) # Show 25 contacts per page.
+        page_number = request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        if medicines:
+            messages.success(request, f'د {search_value} لپاره معلومات پیدا سول!')
+        else:
+            messages.warning(request, 'غوښتل سوي معلومات شتون نه لري!')
+        return render(request, 'medicine/medicine/list_medicine.html', {'page_obj':page_obj, 'search_value':search_value})
     else:
         return redirect('page_404')
 # MEDICINE END ===================================================>>
