@@ -62,6 +62,7 @@ class Medicine(models.Model):
     in_price = models.FloatField()
     out_price = models.FloatField(null=True)
     quantity = models.IntegerField()
+    remaining = models.IntegerField(null=True)
     archive = models.BooleanField(default=False)
     company_purchase = models.ForeignKey('CompanyPurchase', on_delete=models.CASCADE, related_name='medicines', null=False)
     image = models.ImageField(upload_to='medicine/img/', default='medicine/img/default.jpg', null=True)

@@ -32,6 +32,7 @@ def add_medicine(request):
         in_price = request.POST.get('in_price')
         out_price = request.POST.get('out_price')
         quantity = request.POST.get('quantity')
+        remaining = request.POST.get('quantity')
         company_purchase = CompanyPurchase.objects.get(pk=request.POST.get('company_purchase'))
         # validation missing: check if the uploaded file is an image
         if request.FILES.get('medicine_img'):
@@ -51,11 +52,12 @@ def add_medicine(request):
             in_price=in_price,
             out_price=out_price,
             quantity=quantity,
+            remaining=remaining,
             company_purchase=company_purchase,
             image=image
         )
         messages.success(request, 'معلومات په بریالیتوب سره اضافه سول!')
-        return redirect('list_medicine')
+        return redirect('list_medicine', type=1)
     else:
         company_purchases = CompanyPurchase.objects.all()
         medicine_types = MedicineType.objects.all()
@@ -100,7 +102,7 @@ def delete_medicine(request, id):
     if Medicine.objects.filter(id=id).exists():
         Medicine.objects.get(pk=id).delete()
         messages.warning(request, 'معلومات په بریالیتوب سره ډیلیټ سول!')
-        return redirect('list_medicine')
+        return redirect('list_medicine', type=1)
     else:
         return redirect('page_404')
 
