@@ -22,7 +22,10 @@
         <div class="col-md-6 col-xl-3">
             <div class="card medicine-card">
                 <a href="{% url 'get_medicine' medicine.id %}" class="card-link">
-                    <div class="card-body">
+                    <div class="card-body  
+                    {% if medicine.archive %}
+                        archived-medicine
+                    {% endif %}">
                         <h4 class="card-title pashto">{{medicine.brand_name}}</h4>
                         <div class="d-flex justify-content-between">
                             <h6 class="card-subtitle font-14 text-muted pashto">{{medicine.out_price}}</h6>
@@ -72,5 +75,8 @@
     </ul>
 </div>
 
+<div class="pashto">
+    <a href="{% url 'list_medicine' 0 %}">ټول درمل</a>
+</div>
 {% endblock page_content %}
 

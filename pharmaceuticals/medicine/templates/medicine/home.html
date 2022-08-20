@@ -185,7 +185,7 @@
                                         </a>
                                         <ul class="sub-menu" aria-expanded="false">
                                             <li><a href="{% url 'add_medicine' %}">د درملو شاملول</a></li>
-                                            <li><a href="{% url 'list_medicine' %}">د درملو لیست</a></li>
+                                            <li><a href="{% url 'list_medicine' 1 %}">د درملو لیست</a></li>
                                         </ul>
                                     </li>
                                 </ul>
@@ -275,7 +275,3 @@
         <!-- END layout-wrapper -->
 
 {% endblock %}
-
-{% block js %}
-
-{% endblock js %}

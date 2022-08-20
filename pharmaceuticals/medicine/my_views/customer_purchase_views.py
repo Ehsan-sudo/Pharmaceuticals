@@ -17,7 +17,7 @@ def list_customer_purchase(request):
     return render(request, 'medicine/customer_purchase/list_customer_purchase.html', {'page_obj':page_obj})
 
 def customer_purchase(request):
-    medicines = Medicine.objects.all()
+    medicines = Medicine.objects.filter(archive=False).all()
     customers = Customer.objects.all()
     return render(request, 'medicine/customer_purchase/add_customer_purchase.html', {'medicines':medicines, 'customers':customers})
 

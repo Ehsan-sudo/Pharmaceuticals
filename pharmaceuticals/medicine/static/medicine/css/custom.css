@@ -2,3 +2,7 @@
     max-height: 300px;
     overflow: hidden;
 }
+
+.archived-medicine{
+    border: 2px solid red;
+}

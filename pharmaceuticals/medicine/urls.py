@@ -53,12 +53,14 @@ urlpatterns = [
     path('delete-medicine-type/<int:id>/', views.delete_medicine_type, name='delete_medicine_type'),
 
     # medicine routes
-    path('list-medicine/', views.list_medicine, name='list_medicine'),
+    path('list-medicine/<int:type>/', views.list_medicine, name='list_medicine'),
     path('edit-medicine/<int:id>/', views.edit_medicine, name='edit_medicine'),
     path('get-medicine/<int:id>/', views.get_medicine, name='get_medicine'),
     path('add-medicine/', views.add_medicine, name='add_medicine'),
     path('delete-medicine/<int:id>/', views.delete_medicine, name='delete_medicine'),
     path('search-medicine/', views.search_medicine, name='search_medicine'), 
+    path('archive-medicine/<int:id>/', views.archive_medicine, name='archive_medicine'), 
+    path('unarchive-medicine/<int:id>/', views.unarchive_medicine, name='unarchive_medicine'), 
 
     # utility routes
     path('not-found-404/', views.page_404, name='page_404'),

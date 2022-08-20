@@ -23,7 +23,8 @@
                                     <th>رانیولو بیه</th>
                                     <th>خرڅولو بیه</th>
                                     <th>خریداري</th>
-                                    <th>ټوټل شمېر</th>
+                                    <th>ټوټل پاته شمېر</th>
+                                    <th>حالت</th>
                                     <th>لاسوهنه</th>
                                 </tr>
                             </thead>
@@ -39,10 +40,26 @@
                                     <td>{{medicine.company_purchase.id}}--{{medicine.company_purchase.company.name}}</td>
                                     <td>{{medicine.quantity}}</td>
                                     <td>
+                                        {% if medicine.archive %}
+                                            Archived
+                                        {% else %}
+                                            Available
+                                        {% endif %}
+                                    </td>
+                                    <td>
                                         <a class="btn btn-outline-secondary btn-sm edit" title="Edit" href="{% url 'edit_medicine' medicine.id %}">
                                             <i class="fas fa-pencil-alt"></i>
                                         </a>
-                                        <a class="btn btn-outline-danger btn-sm edit" title="Edit" href="{% url 'delete_medicine' medicine.id %}">
+                                        {% if medicine.archive %}
+                                            <a class="btn btn-outline-success btn-sm edit" title="Unarchive" href="{% url 'unarchive_medicine' medicine.id %}">
+                                                <i class="dripicons-trash"></i>
+                                            </a>
+                                        {% else %}
+                                            <a class="btn btn-outline-success btn-sm edit" title="Archive" href="{% url 'archive_medicine' medicine.id %}">
+                                                <i class="dripicons-trash"></i>
+                                            </a>
+                                        {% endif %}
+                                        <a class="btn btn-outline-danger btn-sm edit" title="Delete" href="{% url 'delete_medicine' medicine.id %}">
                                             <i class="dripicons-trash"></i>
                                         </a>
                                     </td>

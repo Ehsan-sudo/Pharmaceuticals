@@ -7,8 +7,12 @@ from django.db.models import Q
 
 
 # MEDICINE START =================================================>>
-def list_medicine(request):
-    medicines = Medicine.objects.all()
+def list_medicine(request, type):
+    medicines = None
+    if type == 0:
+        medicines = Medicine.objects.all()
+    else:
+        medicines = Medicine.objects.filter(archive=False).all()
     paginator = Paginator(medicines, 5) # Show 25 contacts per page.
 
     page_number = request.GET.get('page')
@@ -122,4 +126,23 @@ def search_medicine(request):
         return render(request, 'medicine/medicine/list_medicine.html', {'page_obj':page_obj, 'search_value':search_value})
     else:
         return redirect('page_404')
+
+def archive_medicine(request, id):
+    # validation & only post reqeust
+    medicine = Medicine.objects.get(pk=id)
+    if medicine:
+        medicine.archive = True
+        medicine.save()
+        return redirect('get_medicine', id=id)
+    return redirect('page_404')
+
+def unarchive_medicine(request, id):
+    # validation & only post reqeust
+    medicine = Medicine.objects.get(pk=id)
+    if medicine:
+        medicine.archive = False
+        medicine.save()
+        return redirect('get_medicine', id=id)
+    return redirect('page_404')
+    
 # MEDICINE END ===================================================>>
