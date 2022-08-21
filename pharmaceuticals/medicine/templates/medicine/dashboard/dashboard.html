@@ -1,8 +1,8 @@
 {% extends 'medicine/home.html' %}
 {% load static %}
 
-{% block page_title %}اصلي پاڼه{% endblock page_title %}
-{% block page_name %}اصلي پاڼه{% endblock page_name %}
+{% block page_title %}د سټاک معلومات{% endblock page_title %}
+{% block page_name %}د سټاک معلومات{% endblock page_name %}
 
 {% block page_content %}
     <div class="row">
@@ -16,7 +16,7 @@
                             <h3>{{ available_stock }}%</h3>
                             <div class="border-top">
                                 <div class="d-grid">
-                                    <a class="btn btn-sm btn-link font-size-14 text-center pashto" href="javascript:void(0)">
+                                    <a class="btn btn-sm btn-link font-size-14 text-center pashto" href="{% url 'remaining_stock'  %}">
                                         نور کتل
                                         <i class="mdi mdi-arrow-left-circle me-1"></i>
                                     </a>

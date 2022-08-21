@@ -1,0 +1,50 @@
+{% extends 'medicine/home.html' %}
+{% load static %}
+
+{% block page_title %}د درملو لیست{% endblock page_title %}
+{% block page_name %}د درملو لیست{% endblock page_name %}
+
+{% block page_content %}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="card-body">
+                <p class="card-title-desc pashto">په لاندي جدول کي تاسي د درملو معلومات وینئ.</p>    
+                
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0">
+                        <thead>
+                            <tr class="pashto">
+                                <th>نوم</th>
+                                <th>ټول شمېر</th>
+                                <th>پاته شمېر</th>
+                                <th>اکسپایر نېټه</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for medicine in medicines %}
+                                <tr class="pashto">
+                                    <td><a href="{% url 'get_medicine' medicine.id %}">{{ medicine.brand_name }}</a></td>
+                                    <td>{{ medicine.remaining }}</a></td>
+                                    <td>{{ medicine.quantity }}</td>
+                                    <td>{{ medicine.expire_date }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="container" class="col-xl-8 col-sm-12">
+    <canvas id="stock-chart" data-url="{% url 'stock_statistics' %}" class="pashto"></canvas>
+</div>
+
+{% endblock page_content %}
+
+{% block js %}
+    <script src="{% static 'medicine/js/assets/libs/jquery/Chart.min.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/jquery/custom_charts.js' %}"></script>
+{% endblock %}
