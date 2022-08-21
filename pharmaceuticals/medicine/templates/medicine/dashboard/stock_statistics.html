@@ -39,12 +39,15 @@
 </div>
 
 <div id="container" class="col-xl-8 col-sm-12">
-    <canvas id="stock-chart" data-url="{% url 'stock_statistics' %}" class="pashto"></canvas>
+    <canvas id="stock-chart" class="pashto"></canvas>
 </div>
 
 {% endblock page_content %}
 
 {% block js %}
+    <script>
+        let data = {'data':{{data}}, 'labels':{{labels|safe}}};
+    </script>
     <script src="{% static 'medicine/js/assets/libs/jquery/Chart.min.js' %}"></script>
-    <script src="{% static 'medicine/js/assets/libs/jquery/custom_charts.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/jquery/stock_statistics.js' %}"></script>
 {% endblock %}

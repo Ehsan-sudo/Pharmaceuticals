@@ -5,7 +5,7 @@ urlpatterns = [
     # dashboard routes
     path('home/', views.home, name='home'),
     path('remaining-stock/', views.remaining_stock, name='remaining_stock'),
-    path('stock-statistics/', views.stock_statistics, name='stock_statistics'),
+    path('sales-statistics/', views.sales_statistics, name='sales_statistics'),
 
     # company routes
     path('list-company/', views.list_company, name='list_company'),
