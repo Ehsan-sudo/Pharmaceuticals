@@ -25,7 +25,10 @@ def home(request):
         for cpm in cp.medicines.all():
             total = total + (cpm.quantity*cpm.unit_price)
 
-    return render(request, 'medicine/dashboard/dashboard.html', {'available_stock':int(available_stock), 'p_m_sales':total})
+    # remaining debts
+    remaining_debt = Customer.objects.aggregate(Sum('debt'))['debt__sum']
+
+    return render(request, 'medicine/dashboard/dashboard.html', {'available_stock':int(available_stock), 'p_m_sales':total, 'remaining_debt':remaining_debt})
     
 
 def remaining_stock(request):
@@ -62,4 +65,12 @@ def sales_statistics(request):
             benefit = benefit + (added_value*medicine.quantity)
 
     return render(request, 'medicine/dashboard/previous_month_sales.html', {'customer_purchases':customer_purchases, 'total':total, 'benefit':benefit})
-    
+
+def debt(request):
+    customers = Customer.objects.filter(debt__gt=0).all().order_by('-debt')
+    data = []
+    labels = []
+    for customer in customers:
+        data.append(customer.debt)
+        labels.append(str(customer.name))
+    return render(request, 'medicine/dashboard/debt.html', {'customers':customers, 'data':data, 'labels':labels})
