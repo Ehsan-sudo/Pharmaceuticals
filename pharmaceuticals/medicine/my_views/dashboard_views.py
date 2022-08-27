@@ -28,7 +28,11 @@ def home(request):
     # remaining debts
     remaining_debt = Customer.objects.aggregate(Sum('debt'))['debt__sum']
 
-    return render(request, 'medicine/dashboard/dashboard.html', {'available_stock':int(available_stock), 'p_m_sales':total, 'remaining_debt':remaining_debt})
+    # collected payments
+    # this need archived filter
+    collected_payment = CustomerPayment.objects.aggregate(Sum('paid_amount'))['paid_amount__sum']
+
+    return render(request, 'medicine/dashboard/dashboard.html', {'available_stock':int(available_stock), 'p_m_sales':total, 'remaining_debt':remaining_debt, 'collected_payment':collected_payment})
     
 
 def remaining_stock(request):
@@ -74,3 +78,22 @@ def debt(request):
         data.append(customer.debt)
         labels.append(str(customer.name))
     return render(request, 'medicine/dashboard/debt.html', {'customers':customers, 'data':data, 'labels':labels})
+
+
+def payment_statistics(request):
+    collected_payments = None
+    if request.method == 'GET':
+        date_range = datetime.datetime.now() - datetime.timedelta(days = 30)
+        # this should be filtered with archive
+        collected_payments = CustomerPayment.objects.raw('select c.id, c.name,  sum(cp.paid_amount) as total from medicine_customerpayment as cp join medicine_customer as c on cp.customer_id = c.id group by c.id;')
+        messages.success(request, 'تاسي د تېري میاشتي پېمنټ وینئ!')
+    else:
+        # validations
+        from_date = request.POST.get('from_date')
+        to_date = request.POST.get('to_date')
+        if not to_date:
+            to_date = datetime.datetime.now().date()
+        collected_payments = CustomerPurchase.objects.filter(date__gte=from_date, date__lte=to_date).all()
+        messages.success(request, f'تاسي د {from_date} څخه تر {to_date} پوري پېمنټ وینئ!')
+    total = 0
+    return render(request, 'medicine/dashboard/payment_statistics.html', {'collected_payments':collected_payments, 'total':total})

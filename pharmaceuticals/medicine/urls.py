@@ -7,6 +7,7 @@ urlpatterns = [
     path('remaining-stock/', views.remaining_stock, name='remaining_stock'),
     path('sales-statistics/', views.sales_statistics, name='sales_statistics'),
     path('debt/', views.debt, name='debt'),
+    path('payment-statistics/', views.payment_statistics, name='payment_statistics'),
 
     # company routes
     path('list-company/', views.list_company, name='list_company'),

@@ -85,7 +85,13 @@ def search_customer_payment(request):
     else:
         search_value = search_value_get
     if search_value:
-        customers = Customer.objects.filter(name__icontains=search_value).all()
+        customers = None
+        if search_value.isdigit():
+            print('int------------------')
+            customers = Customer.objects.filter(id=int(search_value)).all()
+        else:
+            print('string------------------')
+            customers = Customer.objects.filter(name__icontains=search_value).all()
         customer_payments = []
         for customer in customers:
             for p in customer.payments.all():
