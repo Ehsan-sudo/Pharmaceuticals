@@ -39,7 +39,11 @@
                         <tbody>
                             {% for cp in collected_payments %}
                                 <tr class="pashto">
-                                    <td><a href="{% url 'search_customer_payment' %}?search_value={{cp.id}}">{{ cp.id }}</a></td>
+                                    {% if date_range %}
+                                        <td><a href="{% url 'search_customer_payment' %}?search_value={{cp.id}}&date_range={{date_range}}">{{ cp.id }}</a></td>
+                                    {% else %}
+                                        <td><a href="{% url 'search_customer_payment' %}?search_value={{cp.id}}&from_date={{from_date}}&to_date={{to_date}}">{{ cp.id }}</a></td>
+                                    {% endif %}
                                     <td>{{ cp.name }}</td>
                                     <td>{{ cp.total }}</td>
                                 </tr>
@@ -57,15 +61,13 @@
                     <table class="table table-hover mb-0">
                         <thead>
                             <tr class="pashto">
-                                <th>ټوټل حساب</th>
-                                <th>ګټه</th>
+                                <th>ټوټل ترلاسه سوي</th>
                                 <th>کړني</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr class="pashto">
                                 <td>{{ total }}</td>
-                                <td>{{ benefit }}</td>
                                 <td>ډاونلوډ</td>
                             </tr>
                         </tbody>

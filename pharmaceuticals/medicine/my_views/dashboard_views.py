@@ -81,9 +81,11 @@ def debt(request):
 
 
 def payment_statistics(request):
-    collected_payments = None
     if request.method == 'GET':
-        date_range = datetime.datetime.now() - datetime.timedelta(days = 30)
+        from_date = datetime.timedelta(days = 30)
+        to_date = datetime.datetime.now()
+        date_range = to_date - from_date
+        date_range = date_range.strftime('%Y-%m-%d')
         # this should be filtered with archive
         collected_payments = CustomerPayment.objects.raw(f"select c.id, c.name,  sum(cp.paid_amount) as total from medicine_customerpayment as cp join medicine_customer as c on cp.customer_id = c.id where cp.date > '{date_range}' group by c.id")
         messages.success(request, 'تاسي د تېري میاشتي پېمنټ وینئ!')
@@ -91,11 +93,14 @@ def payment_statistics(request):
         # validations
         from_date = request.POST.get('from_date')
         to_date = request.POST.get('to_date')
+        date_range = None
         if not to_date:
             to_date = datetime.datetime.now().date()
+            to_date = to_date.strftime('%Y-%m-%d')
+            print(f'THISZZZ {to_date}')
         collected_payments = CustomerPayment.objects.raw(f"select c.id, c.name,  sum(cp.paid_amount) as total from medicine_customerpayment as cp join medicine_customer as c on cp.customer_id = c.id where (cp.date BETWEEN '{from_date}' AND'{to_date}') group by c.id")
         messages.success(request, f'تاسي د {from_date} څخه تر {to_date} پوري پېمنټ وینئ!')
     total = 0
     for cp in collected_payments:
         total = total + cp.total
-    return render(request, 'medicine/dashboard/payment_statistics.html', {'collected_payments':collected_payments, 'total':total})
+    return render(request, 'medicine/dashboard/payment_statistics.html', {'collected_payments':collected_payments, 'total':total, 'date_range':date_range, 'from_date':from_date, 'to_date':to_date})

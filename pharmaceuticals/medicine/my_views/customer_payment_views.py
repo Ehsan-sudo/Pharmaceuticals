@@ -87,21 +87,30 @@ def search_customer_payment(request):
     if search_value:
         customers = None
         if search_value.isdigit():
-            print('int------------------')
             customers = Customer.objects.filter(id=int(search_value)).all()
         else:
-            print('string------------------')
             customers = Customer.objects.filter(name__icontains=search_value).all()
         customer_payments = []
-        for customer in customers:
-            for p in customer.payments.all():
-                customer_payments.append(p)
+
+        # for use of dashboard payment statistics
+        date_range = request.GET.get('date_range')
+        from_date = request.GET.get('from_date')
+        to_date = request.GET.get('to_date')
+        if date_range:
+            customer_payments = CustomerPayment.objects.filter(date__gte=date_range, customer=customers[0]).all()
+        elif from_date:
+            customer_payments = CustomerPayment.objects.filter(date__gte=from_date, date__lte=to_date, customer=customers[0]).all()
+        else:
+            for customer in customers:
+                for p in customer.payments.all():
+                    customer_payments.append(p)
+            
         paginator = Paginator(customer_payments, 10) # Show 25 contacts per page.
 
         page_number = request.GET.get('page')
         page_obj = paginator.get_page(page_number)
         if customers:
-            messages.success(request, f'د {search_value} په اړه معلومات پیدا سول!')
+            messages.success(request, f'معلومات پیدا سول!')
         else:
             messages.warning(request, 'غوښتل سوي معلومات شتون نه لري!')
         return render(request, 'medicine/customer_payment/list_customer_payment.html', {'page_obj':page_obj, 'search_value':search_value})
