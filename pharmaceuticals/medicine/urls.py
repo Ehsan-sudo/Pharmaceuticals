@@ -67,6 +67,10 @@ urlpatterns = [
     path('archive-medicine/<int:id>/', views.archive_medicine, name='archive_medicine'), 
     path('unarchive-medicine/<int:id>/', views.unarchive_medicine, name='unarchive_medicine'), 
 
+    # report views
+    path('remaining-debt-report/', views.remaining_debt_report, name='remaining_debt_report'), 
+
+
     # utility routes
     path('not-found-404/', views.page_404, name='page_404'),
 

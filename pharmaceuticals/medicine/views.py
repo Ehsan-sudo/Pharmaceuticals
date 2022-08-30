@@ -6,6 +6,7 @@ from .my_views.customer_payment_views import list_customer_payment, add_customer
 from .my_views.medicine_type_views import list_medicine_type, add_medicine_type, get_medicine_type, delete_medicine_type, edit_medicine_type
 from .my_views.medicine_views import list_medicine, add_medicine, get_medicine, delete_medicine, edit_medicine, search_medicine, archive_medicine, unarchive_medicine
 from .my_views.dashboard_views import home, remaining_stock, sales_statistics, debt, payment_statistics
+from .my_views.report_views import remaining_debt_report
 
 def page_404(request):
     return render(request, 'medicine/utility/pages-404.html')

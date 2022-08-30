@@ -8,22 +8,24 @@
 <div class="row">
     <div class="col-lg-12">
         <div class="card">
-            <div class="card-body">
-
+            <div class="card-body" id="report-area">
+                <p class="card-title-desc pashto" id="report-datetime"></p>    
                 <p class="card-title-desc pashto">په لاندي جدول کي تاسي د پورونو په اړه معلومات وینئ.</p>    
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
                         <thead>
-                            <tr class="pashto">
+                            <tr class="pashto border-bottom border-secondary">
                                 <th>رانیوونکی</th>
+                                <th>موبایل</th>
                                 <th>پاته پور</th>
                                 <th>وروستی بیل نېټه</th>
                             </tr>
                         </thead>
                         <tbody>
                             {% for customer in customers %}
-                                <tr class="pashto">
+                                <tr class="pashto border-bottom border-secondary">
                                     <td><a href="{% url 'get_customer' customer.id %}">{{ customer.name }}</a></td>
+                                    <td>{{ customer.phone }}</td>
                                     <td>{{ customer.debt }}</td>
                                     <td>{{ customer.purchases.first.date }}</td>
                                 </tr>
@@ -33,12 +35,15 @@
                 </div>
             </div>
         </div>
-
+        
         <div id="container" class="col-xl-8 col-sm-12">
             <canvas id="debt-chart" class="pashto"></canvas>
         </div>
     </div>
+
 </div>
+<button class="btn btn-primary mb-2" id="save-image-btn">ډاونلوډ</button>
+<div id="report-image"></div>
 {% endblock page_content %}
 
 {% block js %}
@@ -47,4 +52,9 @@
     </script>
     <script src="{% static 'medicine/js/assets/libs/jquery/Chart.min.js' %}"></script>
     <script src="{% static 'medicine/js/assets/libs/jquery/debt.js' %}"></script>
+    
+    <!-- for report screen shot -->
+    <script src="{% static 'medicine/js/assets/libs/jquery/jspdf.debug.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/jquery/html2canvas.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/jquery/report.js' %}"></script>
 {% endblock %}

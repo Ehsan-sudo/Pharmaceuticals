@@ -1,0 +1,28 @@
+{% extends 'medicine/home.html' %}
+{% load static %}
+
+{% block page_title %}د پورونو ریپورټ{% endblock page_title %}
+{% block page_name %}د پورونو ریپورټ{% endblock page_name %}
+
+{% block page_content %}
+    <div class="row" id="report-area">
+        <div class="col-xl-12">
+            <div class="card mb-2">
+                <div class="card-body">
+                    <p class="card-title-desc pashto">د لاندي فورم په بشپړولو سره تاسي یو نوی درمل اضافه کوئ.</p>
+                    <h1 style="color: brown;">This is report</h1>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Quaerat distinctio temporibus voluptas, necessitatibus esse quam. Possimus, sit iste, numquam facere, iure aspernatur aliquam magni id nam consequatur quod aut impedit!</p>
+                </div>
+            </div>
+            <!-- end card -->
+        </div> <!-- end col -->
+    </div>
+
+    <button class="btn btn-primary mb-2" id="save-image-btn">انځور واخلئ!</button>
+    <div id="report-image"></div>
+{% endblock page_content %}
+
+{% block js %}
+    <script src="{% static 'medicine/js/assets/libs/jquery/html2canvas.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/jquery/report.js' %}"></script>
+{% endblock js %}
