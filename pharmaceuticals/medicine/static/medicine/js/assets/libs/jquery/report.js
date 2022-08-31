@@ -1,12 +1,14 @@
-let reportSaveBtn = document.getElementById('save-image-btn');
+let reportPdfBtn = document.getElementById('save-pdf-btn');
+let reportDataBtn = document.getElementById('save-data-btn');
+// let tableData = document.getElementById('table-data');
 
 let today = new Date();
 let date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
 let time = today.getHours() + ":" + today.getMinutes();
 let dateTime = date+' '+time;
 
-reportSaveBtn.onclick = (e) => {
-    reportSaveBtn.innerHTML = 'یوه شېبه...';
+reportPdfBtn.onclick = (e) => {
+    reportPdfBtn.innerHTML = 'صبر...';
     let div = document.getElementById('report-area');
 
     // Use the html2canvas
@@ -25,11 +27,22 @@ reportSaveBtn.onclick = (e) => {
             let height = doc.internal.pageSize.getHeight();
             height = ratio * width;
             doc.addImage(canvas, 'JPEG', 0, 0, width-20, height);
-            doc.save('report'+dateTime+'.pdf'); //Download the rendered PDF.
+            doc.save(reportName+'-'+dateTime+'.pdf'); //Download the rendered PDF.
 
-            reportSaveBtn.innerHTML = 'ترسره سو!';
+            reportPdfBtn.innerHTML = 'PDF <i class="mdi mdi-archive-arrow-down me-1"></i>';
             // documcanvasetime').innerHTML = '';
         }
     );
     
+}
+
+
+reportDataBtn.onclick = () => {
+    $("#table-data").table2excel({
+        // exclude CSS class
+        exclude:".noExl",
+        name:"Worksheet Name",
+        filename:reportName+'-'+dateTime,//do not include extension
+        fileext:".xls" // file extension
+    });
 }

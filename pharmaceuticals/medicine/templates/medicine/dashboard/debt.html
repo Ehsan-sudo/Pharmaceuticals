@@ -12,7 +12,7 @@
                 <p class="card-title-desc pashto" id="report-datetime"></p>    
                 <p class="card-title-desc pashto">په لاندي جدول کي تاسي د پورونو په اړه معلومات وینئ.</p>    
                 <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                    <table class="table table-hover mb-0" id="table-data">
                         <thead>
                             <tr class="pashto border-bottom border-secondary">
                                 <th>رانیوونکی</th>
@@ -35,25 +35,38 @@
                 </div>
             </div>
         </div>
-        
+        <div>
+            <button class="btn btn-sm btn-link font-size-14 text-center pashto" id="save-pdf-btn">
+                PDF
+                <i class="mdi mdi-archive-arrow-down me-1"></i>
+            </button>
+            <button class="btn btn-sm btn-link font-size-14 text-center pashto" id="save-data-btn">
+                Data
+                <i class="mdi mdi-archive-arrow-down me-1"></i>
+            </button>
+        </div>
         <div id="container" class="col-xl-8 col-sm-12">
             <canvas id="debt-chart" class="pashto"></canvas>
         </div>
     </div>
 
 </div>
-<button class="btn btn-primary mb-2" id="save-image-btn">ډاونلوډ</button>
 <div id="report-image"></div>
 {% endblock page_content %}
 
 {% block js %}
     <script>
         let data = {'data':{{data}}, 'labels':{{labels|safe}}};
+        let reportName = 'debt'
     </script>
     <script src="{% static 'medicine/js/assets/libs/jquery/Chart.min.js' %}"></script>
     <script src="{% static 'medicine/js/assets/libs/jquery/debt.js' %}"></script>
     
     <!-- for report screen shot -->
+
+    <!-- excel -->
+    <script src="{% static 'medicine/js/assets/libs/jquery/jquery.table2excel.js' %}"></script>
+    <!-- pdf -->
     <script src="{% static 'medicine/js/assets/libs/jquery/jspdf.debug.js' %}"></script>
     <script src="{% static 'medicine/js/assets/libs/jquery/html2canvas.js' %}"></script>
     <script src="{% static 'medicine/js/assets/libs/jquery/report.js' %}"></script>
