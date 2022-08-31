@@ -26,9 +26,10 @@
                     </form>
                 </div>
 
-                <p class="card-title-desc pashto">په لاندي جدول کي تاسي د خرڅلاو په اړه معلومات وینئ.</p>    
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
+                <div class="table-responsive" id="report-area">
+                    <p class="card-title-desc pashto mb-0 mt-2" id="report-datetime"></p>    
+                    <p class="card-title-desc pashto">په لاندي جدول کي تاسي د خرڅلاو په اړه معلومات وینئ.</p>    
+                    <table class="table table-hover mb-0" id="table-data">
                         <thead>
                             <tr class="pashto">
                                 <th>بیل آیډي</th>
@@ -46,39 +47,52 @@
                             {% endfor %}
                         </tbody>
                     </table>
+
+                    <p class="card-title-desc pashto">په یاده نېټه کي:</p>    
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                                <tr class="pashto">
+                                    <th>ټوټل حساب</th>
+                                    <th>ګټه</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="pashto">
+                                    <td>{{ total }}</td>
+                                    <td>{{ benefit }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-body">
-                <p class="card-title-desc pashto">په یاده نېټه کي:</p>    
-                <div class="table-responsive">
-                    <table class="table table-hover mb-0">
-                        <thead>
-                            <tr class="pashto">
-                                <th>ټوټل حساب</th>
-                                <th>ګټه</th>
-                                <th>کړني</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="pashto">
-                                <td>{{ total }}</td>
-                                <td>{{ benefit }}</td>
-                                <td>ډاونلوډ</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+        <div>
+            <button class="btn btn-sm btn-link font-size-14 text-center pashto" id="save-pdf-btn">
+                PDF
+                <i class="mdi mdi-archive-arrow-down me-1"></i>
+            </button>
+            <button class="btn btn-sm btn-link font-size-14 text-center pashto" id="save-data-btn">
+                Data
+                <i class="mdi mdi-archive-arrow-down me-1"></i>
+            </button>
         </div>
     </div>
 </div>
 {% endblock page_content %}
 
 {% block js %}
-
-
+    <script>
+        let reportName = 'sales';
+    </script>
     <script src="{% static 'medicine/js/assets/libs/jquery/Chart.min.js' %}"></script>
+
+    <!-- excel -->
+    <script src="{% static 'medicine/js/assets/libs/jquery/jquery.table2excel.js' %}"></script>
+    <!-- pdf -->
+    <script src="{% static 'medicine/js/assets/libs/jquery/jspdf.debug.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/jquery/html2canvas.js' %}"></script>
+    <script src="{% static 'medicine/js/assets/libs/jquery/report.js' %}"></script>
 {% endblock %}
