@@ -48,8 +48,11 @@ def remaining_stock(request):
 def sales_statistics(request):
     customer_purchases = None
     if request.method == 'GET':
-        date_range = datetime.datetime.now() - datetime.timedelta(days = 30)
+        to_date = datetime.datetime.now().date()
+        from_date = datetime.timedelta(days = 30)
+        date_range = to_date - from_date
         customer_purchases = CustomerPurchase.objects.filter(date__gte=date_range).all()
+        from_date = date_range
         messages.success(request, 'تاسي د تېري میاشتي خرڅلاو وینئ!')
     else:
         # validations
@@ -68,7 +71,7 @@ def sales_statistics(request):
             added_value = medicine.unit_price - medicine.medicine.in_price
             benefit = benefit + (added_value*medicine.quantity)
 
-    return render(request, 'medicine/dashboard/previous_month_sales.html', {'customer_purchases':customer_purchases, 'total':total, 'benefit':benefit})
+    return render(request, 'medicine/dashboard/previous_month_sales.html', {'customer_purchases':customer_purchases, 'total':total, 'benefit':benefit, 'to_date':to_date, 'from_date':from_date})
 
 def debt(request):
     customers = Customer.objects.filter(debt__gt=0).all().order_by('-debt')

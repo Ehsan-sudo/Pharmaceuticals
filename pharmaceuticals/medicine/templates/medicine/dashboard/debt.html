@@ -14,7 +14,7 @@
                 <div class="table-responsive">
                     <table class="table table-hover mb-0" id="table-data">
                         <thead>
-                            <tr class="pashto border-bottom border-secondary">
+                            <tr class="pashto">
                                 <th>رانیوونکی</th>
                                 <th>موبایل</th>
                                 <th>پاته پور</th>
@@ -23,7 +23,7 @@
                         </thead>
                         <tbody>
                             {% for customer in customers %}
-                                <tr class="pashto border-bottom border-secondary">
+                                <tr class="pashto">
                                     <td><a href="{% url 'get_customer' customer.id %}">{{ customer.name }}</a></td>
                                     <td>{{ customer.phone }}</td>
                                     <td>{{ customer.debt }}</td>
